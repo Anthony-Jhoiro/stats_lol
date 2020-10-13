@@ -20,6 +20,10 @@ gdEcart<-max(c(max(d$kills1), max(d$kills2), max(d$kills3), max(d$kills4), max(d
 gdEcart
 ```
 
+## Raportnb morts / nb kill
 ```{r}
-
+deaths <- c(data$deaths1, data$deaths2, data$deaths3, data$deaths4, data$deaths5, data$deaths6, data$deaths7, data$deaths8, data$deaths9, data$deaths10)
+kills <- c(data$kills1, data$kills2, data$kills3, data$kills4, data$kills5, data$kills6, data$kills7, data$kills8, data$kills9, data$kills10)
+boxplot(kills~deaths)
 ```
+>>>>>>> 26d065a8e2480eaf228dfb4c9288815772d3e063
