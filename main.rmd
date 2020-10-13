@@ -1,0 +1,14 @@
+---
+title: "Main"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+data <- read.csv('player_team_lol_data.csv', sep=',')
+```
+
+## Test
+
+```{r}
+median(data$deaths1)
+```
