@@ -12,3 +12,14 @@ data <- read.csv('player_team_lol_data.csv', sep=',')
 ```{r}
 median(data$deaths1)
 ```
+## raport nbmort / nbKill
+
+```{r}
+d<-player_team_lol_data
+gdEcart<-max(c(max(d$kills1), max(d$kills2), max(d$kills3), max(d$kills4), max(d$kills5), max(d$kills6), max(d$kills7), max(d$kills8), max(d$kills9), max(d$kills10))) - min(c(min(d$kills1), min(d$kills2), min(d$kills3), min(d$kills4), min(d$kills5), min(d$kills6), min(d$kills7), min(d$kills8), min(d$kills9), min(d$kills10)))
+gdEcart
+```
+
+```{r}
+
+```
