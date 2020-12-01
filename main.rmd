@@ -31,10 +31,39 @@ boxplot(kills~deaths)
 ## Test
 
 ``` {r}
-data_lol <- read.csv("player_team_lol_data.csv", sep = ",")
 data_test = data_lol[, c("kills1", "kills2", "kills3", "kills4", "kills5", "winTeam1")]
 data_sum = data_test %>% replace(is.na(.), 0) %>% mutate(sum = rowSums(.[1:5]))
 boxplot(data_sum$sum ~ data_sum$winTeam1)
 
 ```
+```{r}
+data_test_2 = data_lol[, c("kills6", "kills7", "kills8", "kills9", "kills10", "winTeam2")]
+data_sum_2 = data_test_2 %>% replace(is.na(.), 0) %>% mutate(sum = rowSums(.[1:5]))
+boxplot(data_sum_2$sum ~ data_sum_2$winTeam2)
+```
+
+``` {r}
+data_sum
+data_sum_2
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
