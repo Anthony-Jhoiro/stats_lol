@@ -4,7 +4,8 @@ output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
-data <- read.csv('player_team_lol_data.csv', sep=',')
+data_lol <- read.csv('player_team_lol_data.csv', sep=',')
+library(dplyr)
 ```
 
 ## Test
@@ -26,4 +27,14 @@ deaths <- c(data$deaths1, data$deaths2, data$deaths3, data$deaths4, data$deaths5
 kills <- c(data$kills1, data$kills2, data$kills3, data$kills4, data$kills5, data$kills6, data$kills7, data$kills8, data$kills9, data$kills10)
 boxplot(kills~deaths)
 ```
->>>>>>> 26d065a8e2480eaf228dfb4c9288815772d3e063
+
+## Test
+
+``` {r}
+data_lol <- read.csv("player_team_lol_data.csv", sep = ",")
+data_test = data_lol[, c("kills1", "kills2", "kills3", "kills4", "kills5", "winTeam1")]
+data_sum = data_test %>% replace(is.na(.), 0) %>% mutate(sum = rowSums(.[1:5]))
+boxplot(data_sum$sum ~ data_sum$winTeam1)
+
+```
+
