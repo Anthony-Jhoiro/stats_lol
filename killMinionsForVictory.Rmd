@@ -1,0 +1,74 @@
+Notre objectif est de prouver l'efficacité de tuer les minions dans une partie. 
+Nous posons donc :
+- h1 : Plus une équipe tue de minions, plus elle a de chance de gagner
+- h0 : Le nombre de minions tué n'a pas d'influance sur la victoire
+
+Pour commencer, on souhaite séparer le nombre minions tués par les équipes perdantes et par les équipes gagnantes.
+
+```{r}
+# récupération du nombre de minions tués par les équipes gagnantes
+win1 <- subset(data_lol, winTeam1 == " Win")[,c( "minionsKill1", "minionsKill2", "minionsKill3", "minionsKill4", "minionsKill5")]
+win2 <- subset(data_lol, winTeam2 == " Win")[,c( "minionsKill6", "minionsKill7", "minionsKill8", "minionsKill9", "minionsKill10")]
+
+# On change le nom des colonnes de win2 pour pouvoir les joindre à win1
+names(win2) <- c( "minionsKill1", "minionsKill2", "minionsKill3", "minionsKill4", "minionsKill5")
+win <- rbind(win1, win2)
+minionKilledWin <- rowSums(win)
+
+# On effectue les même opérations avec les équipes perdantes
+
+# récupération du nombre de minions tués des parties perdantes
+lose1 <- subset(data_lol, winTeam1 == " Fail")[,c( "minionsKill1", "minionsKill2", "minionsKill3", "minionsKill4", "minionsKill5")]
+lose2 <- subset(data_lol, winTeam2 == " Fail")[,c( "minionsKill6", "minionsKill7", "minionsKill8", "minionsKill9", "minionsKill10")]
+
+# On change le nom des colonnes de lose2 pour pouvoir les joindre à lose1
+names(lose2) <- c( "minionsKill1", "minionsKill2", "minionsKill3", "minionsKill4", "minionsKill5")
+lose <- rbind(lose1, lose2)
+minionKilledLose <- rowSums(lose)
+```
+
+Ensuite, on voudrait comparer ces données, pour ce faire, nous allons les comparer à la moyenne du nombre total de minions tués.  Nous allons donc réaliser un teste de confiormité. Nous mettons le seuil à 0.05.
+
+```{r}
+# calcul de la moyenne des minions tués par équipe gagnante ou perdante
+meanGlobalKill <- mean(c(minionKilledWin, minionKilledLose))
+
+# On compare maintenant les 2 jeux de données à la moyenne (test de conformité)
+pWin <- t.test(minionKilledWin, mu = meanGlobalKill, alternative = "greater")$p.value
+
+"P value pour une équipe gagnante :"
+pWin
+
+```
+
+Le p value est supérieur au seuil de tolérance, on peut donc en déduire que le nombre de minion a une incidence sur la victoire. On suppose maintenant que l'équipe effectuant le plusde kill a le plus de chance de gagner, pour ce faire, nous pouvons comparer les moyennes des équipes perdantes et gagnantes.
+
+```{r}
+"Moyenne de minions tués part une équipe gagnante :"
+mean(minionKilledWin)
+"Moyenne de minions tués part une équipe perdante :"
+mean(minionKilledLose)
+boxplot(cbind(minionKilledWin, minionKilledLose))
+```
+
+On constate en comparant les résultats ci dessus que les équipes gagnantes  tuent en moyenne plus de minions, ce qui confirme notre hypothèse même si les écarts sont faibles.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

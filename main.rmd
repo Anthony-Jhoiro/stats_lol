@@ -4,7 +4,7 @@ output: pdf_document
 ---
 <!-- Main setup : Libraries and data -->
 ```{r setup, include=FALSE}
-data_lol <- read.csv('player_team_lol_data.csv', sep=',')
+data_lol <- read.csv('player_team_lol_data.csv')
 library(questionr)
 library(dplyr)
 ```
