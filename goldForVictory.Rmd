@@ -1,0 +1,48 @@
+Notre objectif est de prouver l'importance de la récupération de gold dans une partie. 
+Nous posons donc :
+- h1 : Plus une équipe récupère de gold, plus elle a de chance de gagner
+- h0 : Le nombre gold obtennu n'a pas d'influance sur la victoire
+
+Pour commencer, on souhaite séparer le nombre minions tués par les équipes perdantes et par les équipes gagnantes.
+
+```{r}
+# récupération du nombr de gold obtenus par les équipes gagnantes
+win1 <- subset(data_lol, winTeam1 == " Win")[,c( "gold1", "gold2", "gold3", "gold4", "gold5")]
+win2 <- subset(data_lol, winTeam2 == " Win")[,c( "gold6", "gold7", "gold8", "gold9", "minionsKill10")]
+
+# On change le nom des colonnes de win2 pour pouvoir les joindre à win1
+names(win2) <- c( "gold1", "gold2", "gold3", "gold4", "gold5")
+win <- rbind(win1, win2)
+goldWin <- rowSums(win)
+
+# On effectue les même opérations avec les équipes perdantes
+
+# récupération du nombre de minions tués des parties perdantes
+lose1 <- subset(data_lol, winTeam1 == " Fail")[,c( "gold1", "gold2", "gold3", "gold4", "gold5")]
+lose2 <- subset(data_lol, winTeam2 == " Fail")[,c( "gold6", "gold7", "gold8", "gold9", "gold10")]
+
+# On change le nom des colonnes de lose2 pour pouvoir les joindre à lose1
+names(lose2) <- c( "gold1", "gold2", "gold3", "gold4", "gold5")
+lose <- rbind(lose1, lose2)
+goldLose <- rowSums(lose)
+```
+
+Ensuite, on voudrait comparer ces données, pour ce faire, nous allons les comparer à la moyenne du nombre total de gold récupéré par équipe. Nous allons donc réaliser un teste de conformité. Nous mettons le seuil à 0.05.
+
+```{r}
+# calcul de la moyenne des gold récupérés par équipe gagnante ou perdante
+meanGlobalGold <- mean(c(goldWin, goldLose))
+
+# On compare maintenant les 2 jeux de données à la moyenne (test de conformité)
+pWin <- t.test(goldWin, mu = meanGlobalGold, alternative = "greater")$p.value
+
+"P value pour une équipe gagnante :"
+pWin
+
+```
+
+Le p value est bien inférieur au seuil attendu, la quantité de gold récupérée par une équipe n'a donc pas d'incidence.
+
+```{r}
+boxplot(goldWin, goldLose)
+```
