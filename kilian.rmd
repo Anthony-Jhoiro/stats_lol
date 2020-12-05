@@ -1,0 +1,106 @@
+---
+title: "Kilian RMD parce que c'est enervant de modifier le même fichier par git"
+author: "Kilian DEBRAUX Anthony QUERE"
+date: "01/12/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+data_lol <- read.csv('player_team_lol_data.csv', sep=',')
+library(questionr)
+
+# récupération du nombre de kills des parties gagnante
+win1 <- subset(data_lol, winTeam1 == " Win")[,c( "kills1", "kills2", "kills3", "kills4", "kills5")]
+win2 <- subset(data_lol, winTeam2 == " Win")[,c( "kills6", "kills7", "kills8", "kills9", "kills10")]
+names(win2) <- c( "kills1", "kills2", "kills3", "kills4", "kills5")
+win <- rbind(win1, win2)
+killsWin <- rowSums(win)
+
+# récupération du nombre de kills des parties perdante
+fail1 <- subset(data_lol, winTeam1 == " Fail")[,c( "kills1", "kills2", "kills3", "kills4", "kills5")]
+fail2 <- subset(data_lol, winTeam2 == " Fail")[,c( "kills6", "kills7", "kills8", "kills9", "kills10")]
+names(fail2) <- c( "kills1", "kills2", "kills3", "kills4", "kills5")
+fail <- rbind(fail1, fail2)
+killsFail <- rowSums(fail)
+
+#récupération du tableau comparatif
+killsWF <- cbind(killsWin, killsFail)
+
+```
+
+# Evaluation de l'importance du nombre de kills d'une équipe dans la victoire de celle-ci
+
+## Approximation du résultat dans l'espoir d'une corrélation
+
+L'objectif de cette étude étant de trouver les facteurs les plus importants pour la vitoire d'une équipe, la première conjecture qui nous vient est que le nombre de kills d'une équipe influe sur le résultat (plus une équipe tue d'adversaire, plus elle a de chance de gagner).  
+
+Pour voir s'il peut y avoir une corrélation, on peut d'abord regarder la moyenne de kills des équipes lors d'une victoire, et la moyenne des kills des équipes lorsqu'elle perde :  
+
+
+```{r}
+# calcul de la moyenne des kills en fonction du résultat du match
+"moyenne de kills en cas de victoire :"
+mean(killsWin)
+"moyenne de kills en cas de défaite :"
+mean(killsFail)
+"différence des moyennes en pourcentage :"
+mean(killsFail) / mean(killsWin)
+```
+Ici, la moyenne des kills lorsqu'une équipe gagne est de 34.14231, alors que lorsqu'elle perd, une équipe ne fait en moyenne que 21.56635 kills. Il y a donc un écart de 63.17% de kills entre les deux moyennes. Imaginer une corrélation ne semble alors pas fantaisiste, et creuser de ce côté peut être intéressant.  
+
+On peut aussi regarder les autres données statistiques que la moyenne comme la médiane (50% des équipe ont fait plus de kills que la mediane), ou les quartiles (comme la médiane mais avec 25% ou 75%) :   
+
+```{r}
+"données de kills en cas de victoire :"
+summary(killsWin)
+"données type de kills en cas de défaite :"
+summary(killsFail)
+```
+
+Sur ces données, le plus impressionant est le 1er quartile et la mediane : 27 kills pour une équipe gagnante contre 13 pour une équipe perdante pour le premier quartile et 33 kills contre 19 pour la mediane. Pour les 2, l'écart est presque du simple au double. L'écart semble se réduire lors du 3eme quartile et du max. On pourrait penser alors que moins une partie ne possède de kills (les joueurs jouent plus défensif qu'offensif), plus le nombre de kills est important; mais cette conclusion serait hâtive et il faudrait étudier cela plus en profondeur.  
+
+Maintenant que nous avons de solides façons de penser qu'une corrélation peut exister, il va falloir faire un test d'hypothèse.  
+
+Pour cela, on va regarder l'importance d'être au dessus de la mediane de kills fait par une équipe :
+
+
+```{r}
+cbind(killsWin, killsFail)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
