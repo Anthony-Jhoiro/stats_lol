@@ -10,41 +10,25 @@ library(dplyr)
 
 ## Test
 
-```{r}
-median(data$deaths1)
-```
-## raport nbmort / nbKill
-
-```{r}
-d<-player_team_lol_data
-gdEcart<-max(c(max(d$kills1), max(d$kills2), max(d$kills3), max(d$kills4), max(d$kills5), max(d$kills6), max(d$kills7), max(d$kills8), max(d$kills9), max(d$kills10))) - min(c(min(d$kills1), min(d$kills2), min(d$kills3), min(d$kills4), min(d$kills5), min(d$kills6), min(d$kills7), min(d$kills8), min(d$kills9), min(d$kills10)))
-gdEcart
-```
-
-## Raportnb morts / nb kill
-```{r}
-deaths <- c(data$deaths1, data$deaths2, data$deaths3, data$deaths4, data$deaths5, data$deaths6, data$deaths7, data$deaths8, data$deaths9, data$deaths10)
-kills <- c(data$kills1, data$kills2, data$kills3, data$kills4, data$kills5, data$kills6, data$kills7, data$kills8, data$kills9, data$kills10)
-boxplot(kills~deaths)
-```
-
-## Test
 
 ``` {r}
-data_test = data_lol[, c("kills1", "kills2", "kills3", "kills4", "kills5", "winTeam1")]
-data_sum = data_test %>% replace(is.na(.), 0) %>% mutate(sum = rowSums(.[1:5]))
-boxplot(data_sum$sum ~ data_sum$winTeam1)
+# récupération du nombre de kills des parties gagnante
+win1 <- filter(data_lol, winTeam1 == " Win")[,c( "kills1", "kills2", "kills3", "kills4", "kills5")]
+win2 <- filter(data_lol, winTeam2 == " Win")[,c( "kills6", "kills7", "kills8", "kills9", "kills10")]
+names(win2) <- c( "kills1", "kills2", "kills3", "kills4", "kills5")
+win <- rbind(win1, win2)
+killsWin <- rowSums(win)
 
-```
-```{r}
-data_test_2 = data_lol[, c("kills6", "kills7", "kills8", "kills9", "kills10", "winTeam2")]
-data_sum_2 = data_test_2 %>% replace(is.na(.), 0) %>% mutate(sum = rowSums(.[1:5]))
-boxplot(data_sum_2$sum ~ data_sum_2$winTeam2)
-```
+# récupération du nombre de kills des parties perdante
+fail1 <- filter(data_lol, winTeam1 == " Fail")[,c( "kills1", "kills2", "kills3", "kills4", "kills5")]
+fail2 <- filter(data_lol, winTeam2 == " Fail")[,c( "kills6", "kills7", "kills8", "kills9", "kills10")]
+names(fail2) <- c( "kills1", "kills2", "kills3", "kills4", "kills5")
+fail <- rbind(fail1, fail2)
+killsFail <- rowSums(fail)
 
-``` {r}
-data_sum
-data_sum_2
+# test
+mean(killsWin)
+mean(killsFail)
 ```
 
 
