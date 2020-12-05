@@ -4,7 +4,7 @@ output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
-data <- read.csv('player_team_lol_data.csv', sep=',')
+data_lol <- read.csv('player_team_lol_data.csv', sep=',')
 library(questionr)
 library(dplyr)
 ```
@@ -12,7 +12,7 @@ library(dplyr)
 ## Test
 
 ```{r}
-median(data$deaths1)
+median(data_lol$deaths1)
 ```
 ## raport nbmort / nbKill
 
@@ -29,6 +29,7 @@ kills <- c(data$kills1, data$kills2, data$kills3, data$kills4, data$kills5, data
 boxplot(kills~deaths)
 ```
 
+<<<<<<< HEAD
 ## Total kill / win
 ```{r}
 totalkill = mapply(sum, data$kills1, data$kills2, data$kills3, data$kills4, data$kills5, data$kills6, data$kills7, data$kills8, data$kills9, data$kills10)
@@ -99,5 +100,44 @@ for (i in 1:5) {
 minionsKillWin = sum(win1$minionsKill1, win1$minionsKill2)
 
 ```
+=======
+## Test
+
+``` {r}
+data_test = data_lol[, c("kills1", "kills2", "kills3", "kills4", "kills5", "winTeam1")]
+data_sum = data_test %>% replace(is.na(.), 0) %>% mutate(sum = rowSums(.[1:5]))
+boxplot(data_sum$sum ~ data_sum$winTeam1)
+
+```
+```{r}
+data_test_2 = data_lol[, c("kills6", "kills7", "kills8", "kills9", "kills10", "winTeam2")]
+data_sum_2 = data_test_2 %>% replace(is.na(.), 0) %>% mutate(sum = rowSums(.[1:5]))
+boxplot(data_sum_2$sum ~ data_sum_2$winTeam2)
+```
+
+``` {r}
+data_sum
+data_sum_2
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> 419e49bbf07e41e9fdc2d6111e68c60d60ff9c3e
 
 
