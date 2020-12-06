@@ -8,6 +8,8 @@ output: pdf_document
 ```{r setup, include=FALSE}
 data_lol <- read.csv('player_team_lol_data.csv', sep=',')
 library(questionr)
+library(stats)
+library(OneTwoSamples)
 
 # récupération du nombre de kills des parties gagnante
 win1 <- subset(data_lol, winTeam1 == " Win")[,c( "kills1", "kills2", "kills3", "kills4", "kills5")]
@@ -23,8 +25,63 @@ names(fail2) <- c( "kills1", "kills2", "kills3", "kills4", "kills5")
 fail <- rbind(fail1, fail2)
 killsFail <- rowSums(fail)
 
-#récupération du tableau comparatif
+# récupération du nombre de deaths des parties gagnante
+deathwin1 <- subset(data_lol, winTeam1 == " Win")[,c( "deaths1", "deaths2", "deaths3", "deaths4", "deaths5")]
+deathwin2 <- subset(data_lol, winTeam2 == " Win")[,c( "deaths6", "deaths7", "deaths8", "deaths9", "deaths10")]
+names(deathwin2) <- c( "deaths1", "deaths2", "deaths3", "deaths4", "deaths5")
+deathwin <- rbind(deathwin1, deathwin2)
+deathsWin <- rowSums(deathwin)
+
+# récupération du nombre de deaths des parties perdante
+deathfail1 <- subset(data_lol, winTeam1 == " Fail")[,c( "deaths1", "deaths2", "deaths3", "deaths4", "deaths5")]
+deathfail2 <- subset(data_lol, winTeam2 == " Fail")[,c( "deaths6", "deaths7", "deaths8", "deaths9", "deaths10")]
+names(deathfail2) <- c( "deaths1", "deaths2", "deaths3", "deaths4", "deaths5")
+deathfail <- rbind(deathfail1, deathfail2)
+deathsFail <- rowSums(deathfail)
+
+# récupération du ratio kills/deaths
+# gagnants
+ratioWin = c()
+for(i in 1:length(killsWin)){
+  if(deathsWin[i] == 0){
+    ratioWin[i] = killsWin[i]
+  }
+  else {
+    ratioWin[i] = killsWin[i] / deathsWin[i]
+  }
+}
+
+# perdants
+ratioFail = c()
+for(i in 1:length(killsWin)){
+  if(deathsFail[i] == 0){
+    ratioFail[i] = killsFail[i]
+  }
+  else {
+    ratioFail[i] = killsFail[i] / deathsFail[i]
+  }
+}
+
+#récupération du tableau avec tous les kills
 killsWF <- cbind(killsWin, killsFail)
+
+# récupération de tous les ratios
+ratioWF <- cbind(ratioWin, ratioFail)
+
+# récupération des fréquences de victoires en fonction des kills
+frequenciesWin = c()
+for (i in row.names(freq(killsWin))){
+  frequenciesWin[strtoi(i)] <- freq(killsWin)[i, 1]
+}
+frequenciesWin[is.na(frequenciesWin)] <- 0
+
+# récupération des fréquences de defaite en fonction des kills
+frequenciesFail = c()
+for (i in row.names(freq(killsFail))){
+  frequenciesFail[strtoi(i)] <- freq(killsFail)[i, 1]
+}
+frequenciesFail[is.na(frequenciesFail)] <- 0
+
 
 ```
 
@@ -61,23 +118,73 @@ Sur ces données, le plus impressionant est le 1er quartile et la mediane : 27 k
 
 Maintenant que nous avons de solides façons de penser qu'une corrélation peut exister, il va falloir faire un test d'hypothèse.  
 
-Pour cela, on va regarder l'importance d'être au dessus de la mediane de kills fait par une équipe :
+## Test d'hypothèse
 
+Pour cela, on va regarder l'homogénéité des kills des équipes gagnantes et les kills des équipes perdantes et plus précisément voir si les kills des équipes gagnantes sont supérieurs aux équipes perdantes.
+On formule donc :
+H0 : faire plus de kills n'influe pas sur le résultat du match
+H1 : faire plus de kills influe sur le résultat du match
 
 ```{r}
-cbind(killsWin, killsFail)
+t.test(killsWin, killsFail, alternative = "greater")$p.value
+```
+
+On obtient un p value de 1.30 * 10^-101, ce qui est énorme, et même impenssable. Mais en réfléchissant, nous n'avons pas trouvé d'erreur dans le calcul.
+
+En conclusion, la corrélation semble bonne, et théoriquement, le p value confirme ça, mais nous emmetterions une réserve sur ce résultat due à l'incroyable valeur trouvée. Nous rejetons donc H0, mais restons prudent quant au fait d'annoncer la justesse de nos calculs.
+
+Enfin nous aimerions, pour appuyer l'hypothèse d'une corrélation, montrer deux graphiques : le nombre de victoires et de défaite en fonction des kills réalisés
+
+```{r}
+barplot(frequenciesWin, main = "nombre de victoire en fonction des kills effectués por une équipe")
+```
+
+```{r}
+barplot(frequenciesFail, main = "nombre de défaite en fonction des kills effectués por une équipe")
+```
+
+Sur ces deux graphiques, on peut voir visuellement la différence de kills entre une équipe gagnante et une équipe perdante : les 2 courbes semblent suivre une distribution normale mais avec une moyenne très différente.
+
+
+
+# Evaluation de l'importance du ratio kills/death d'une équipe dans la victoire de celle-ci
+
+## Approximation du résultat dans l'espoir d'une corrélation
+
+Maintenant que nous avons mis en évidence la corrélation entre le nombre de kills effectués et le résultat d'un match, nous pouvons pousser un peu plus loin et montrer le lien entre le ratio kills/deaths et le résultat du match 
+
+Nous allons regarder directement l'ensemble des valeurs statistiques des ratios pour les équipes gagnantes et perdantes
+  
+
+```{r}
+"données de kills en cas de victoire :"
+summary(ratioWin)
+"données type de kills en cas de défaite :"
+summary(ratioFail)
+```
+
+Ici, contrairement au cas pour les kills seuls, plus le ratio est grand, plus la différence entre les équipes qui perdent et qui gagnent se ressent : au point même que le 3ème quartile des ratio des équipes gagnantes est supérieur au maximum des équipes perdantes ; ce qui signifient que plus d'un quart des équipes gagnantes ont un meilleur ratio que n'importe quelle équipe perdante. De plus, le maximum de ratio d'une équipe gagnante est 11 fois supérieur à celui d'une équipe perdante.
+
+Pour ce qui est de la moyenne et de la mediane, elle sont toutes les deux à un même écart : celle d'une équipe gagnante est environ 3 fois supérieure à celle d'une équipe perdante, tout comme le premier quartile d'ailleurs.
+
+Maintenant que nous avons de solides façons de penser qu'une corrélation peut exister, il va falloir faire un test d'hypothèse.  
+
+## Test d'hypothèse
+
+Pour cela, on va regarder l'importance d'être au dessus de la mediane de ratio kills/deaths d'une équipe.
+On formule donc :
+H0 : le ratio d'une équipe gagnante n'est pas supérieur au ratio d'une équipe perdante
+H1 : le ratio d'une équipe gagnante est supérieur au ratio d'une équipe perdante
+
+```{r}
+t.test(ratioWin, ratioFail, alternative = "greater")$p.value
 ```
 
 
 
+On obtient un p value de 3.80e-182, ce qui est, comme pour les kills, une valeur très forte, presque fantaisiste. Or, comme pour les kills, nous ne voyons pas ce qui peut manquer dans les calculs.
 
-
-
-
-
-
-
-
+En conclusion, la corrélation semble bonne, et théoriquement, le pp value confirme ça, mais nous emmetterions une réserve sur ce résultat due à l'incroyable valeur trouvée. Nous rejetons donc H0, mais restons prudent quant au fait d'annoncer la justesse de nos calculs.
 
 
 
