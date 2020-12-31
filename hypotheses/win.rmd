@@ -1,15 +1,25 @@
 # La victoire ou la défaite d'unjoueur a une influence sur son total d'xp en fin de partie
 
-<!-- TODO : Intro -->
+Comme n'importe quel jeu, vidéo ou non, l'objectif principal reste toujours le même. Gagner. Le gain d'une partie est dans de nombreux jeux récompensé. Soit par un bonus pour la partie suivante ou alors par l'obtention d'un objet ou de point vous glorifiant devant lers autres joueurs. C'est donc en toute logique que nous nous sommes demandé si les joueurs des équipes gagnantes de League of Legends étaient récompensés par de l'experience suplémentaire en fin de combat. 
 
 **H0** La victoire d'une équipe a une influence sur la quantité d'xp récupérée par ses joueurs
 
 **H1** La victoire d'une éuipe n'a pas d'inluence sur la quantité d'experience perçue par le joueur en fin de partie
 
 ```{r}
-boxplot(data$xp ~ data$win )
+# Remove irrelevent players (with 0 xp)
+data2 <- filter(data, xp != 0)
+boxplot(data2$xp ~ data2$win )
 ```
 
 ```{r}
-
+data3 <- data2[order(data2$win),]
+m = matrix(data3$xp, nrow = 2, byrow = TRUE)
+chisq.test(m)$p.value
 ```
+
+
+
+
+
+> Le résultat "0" nous semble très étrange. Quand nous regardons le boxplot ainsi que la matrice, on remarque une différence mais minime. Le p value de 0 signifie une corélation évidente entre la victoire et la quantité d'experience remportée or le total d'experience est majoritairement calculé pendant la partie, ce n'est pas ce que nous constatons avec ce p-value

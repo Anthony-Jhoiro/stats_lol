@@ -10,13 +10,13 @@ Dans League of legends, les golds permettent d'acheter des objets permettant d'a
 # Remove unnecessary values (players with 0 xp or golds because this is due to innactivity)
 data2 <- filter(data, goldEarned != 0)
 data2 <- filter(data2, xp != 0)
-plot(data$goldEarned ~ data$xp)
+plot(data2$goldEarned ~ data2$xp)
 ```
 
 Afin de réfuter H1, nous effectuons un test d'indépendance entre le nombre de gold récupérés et le total d'experience en fin de match.
 
 ```{r}
-cor.test(data$goldEarned, data$xp)$p.value
+cor.test(data2$goldEarned, data2$xp)$p.value
 ```
 Le p-value de 0 nous permet de réfuter largement H1 et donc de vérifier H0. De plus nous pouvons constater une dépendance linéaire positive entre les deux caractéristiques.
 
