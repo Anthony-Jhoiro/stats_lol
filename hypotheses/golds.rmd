@@ -1,10 +1,10 @@
 ## La quantité de golds récupérés par un joueur influe sur son total d'experience
 
-<!-- TODO : intro -->
+Dans League of legends, les golds permettent d'acheter des objets permettant d'améliorer certaines caractéristiques de son personnage <!-- TODO : Donner des exemples de caracteristiues --> ou des consommables pour regagner de la vie par exemple. Nous nous sommes demander si l'or n'avait pas un interet suplémentaire dans le gain d'experience d'un joueur. 
 
-**H0**
+**H0** La quantité de gold récupéré a une influence sur la quantité d'experience en fin de match d'un joueur
 
-**H1**
+**H1** La quantité de gold récupéré n'a pas d'influence sur l'experience de fin de match
 
 ```{r}
 plot(data$goldEarned ~ data$xp)
