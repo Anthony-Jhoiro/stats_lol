@@ -7,6 +7,9 @@ Dans League of legends, les golds permettent d'acheter des objets permettant d'a
 **H1** La quantité de gold récupéré n'a pas d'influence sur l'experience de fin de match
 
 ```{r}
+# Remove unnecessary values (players with 0 xp or golds because this is due to innactivity)
+data2 <- filter(data, goldEarned != 0)
+data2 <- filter(data2, xp != 0)
 plot(data$goldEarned ~ data$xp)
 ```
 

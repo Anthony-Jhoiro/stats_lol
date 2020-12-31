@@ -25,6 +25,7 @@ alpha = 0.05
 # Setup librairies and dataset
 data <- read.csv("data/player_lol_data.CSV")
 library(questionr)
+library(dplyr)
 ```
 
 ```{r child = 'hypotheses/dammages_dealt.rmd'}
