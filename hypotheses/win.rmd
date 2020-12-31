@@ -1,0 +1,15 @@
+# La victoire ou la défaite d'unjoueur a une influence sur son total d'xp en fin de partie
+
+<!-- TODO : Intro -->
+
+**H0** La victoire d'une équipe a une influence sur la quantité d'xp récupérée par ses joueurs
+
+**H1** La victoire d'une éuipe n'a pas d'inluence sur la quantité d'experience perçue par le joueur en fin de partie
+
+```{r}
+boxplot(data$xp ~ data$win )
+```
+
+```{r}
+
+```

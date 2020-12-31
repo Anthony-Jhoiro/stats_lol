@@ -1,0 +1,24 @@
+## Le nombre de dommage infligés par un joueur influe sur son total d'experience
+
+Dans la majorité des jeux comportant du combats, les dommages infligés par un joueur ont une grande importance dans sa progression. Un joueur qui n'infligerera que peu de dommages aura souvent plus de mal à avancer alors qu'un joueur en infligeant beaucoup pourra progresser avecmoins de difficulté. League of legend ne fait pas exception nous met à dispositiondes données sur la quantité de dommages infligés par joueur. Nous nous sommes donc demandés si la quantité de dommage infligés avaient une influence sur la progression des joueurs.
+
+**H0** : Plus un joueur va infligé de dommages aux ennemis, plus il recevra d'experience en fin de combat.
+
+**H1** : Le nombre de dommage infligé n'a pas d'incidence sur le total d'experience en fin de combat.
+
+```{r}
+plot(data$totalDamageDealt ~ data$xp)
+```
+
+Pour réfuter H1, nous effectuons un test d'indépendance pour réfuter l'indépendance des 2 caractéritiques
+```{r}
+cor.test(data$xp, data$totalDamageDealt)$p.value
+```
+
+Le `P-value` de *0* nous permet de réfuter H1 et donc de valider H0. De plus le plot nous permet de constater une dépendance linéaire positive entre les deux caractéristiques bien  que la large répartition des points indique que le nombre de dommage infligés n'est pas le seul critère déterminant. 
+
+Nous pouvons donc conclure que le nombre de dommage influgés par un joueur a une grande influence sur la quantité d'xp qu'il recevra en fin de partie. Cela peut s'expliquer aisément car cette valeur est un bon indicateur des performances d'un joueur. 
+
+
+
+

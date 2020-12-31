@@ -1,45 +1,39 @@
 ---
-title: "Kilian_debraux_& anthony_quere_proba_stat"
+title: "Statistiques Lol"
+subtitle: "Quelle est la meilleur methode pour gagner de l'experience dans League of Legends ?"
 output: pdf_document
 ---
-<!-- Main setup : Libraries and data -->
-```{r setup, include=FALSE}
-data_lol <- read.csv('player_team_lol_data.csv')
+
+![Logo lol](assets/logo_lol.jpg)
+
+\newpage
+# Introduction
+
+<!-- TODO : Introduction -->
+## Nos données
+<!-- TODO : Jeu de donnée -->
+
+## Nos règles
+<!-- TODO : List rules (rédiger plus que ça) -->
+alpha = 0.05
+
+\newpage
+# Observations
+<!-- TODO : Summary -->
+
+```{r setup}
+# Setup librairies and dataset
+data <- read.csv("data/player_lol_data.CSV")
 library(questionr)
-library(dplyr)
 ```
 
-# Étude statistique : League of legends
-## Les facteurs influants sur la victoire
-
-![Logo lol](https://www.google.com/url?sa=i&url=https%3A%2F%2Fsiecledigital.fr%2F2019%2F07%2F25%2Fla-chine-presente-son-plan-anti-dependance-a-league-of-legends%2F&psig=AOvVaw3UBuL-5jSKUwRREtM18vCj&ust=1607263468644000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCIiRupOBt-0CFQAAAAAdAAAAABAD)
-
-### La quantité joueurs tués pas équipe a une influance sur la victoire
-
-```{r child = 'killForVictory.Rmd'}
+```{r child = 'hypotheses/dammages_dealt.rmd'}
 ```
 
-### La quantité minions tués pas équipe a une influance sur la victoire
-
-```{r child = 'killMinionsForVictory.Rmd'}
+\newpage
+```{r child = 'hypotheses/golds.rmd'}
 ```
 
-### Le nombre d'assistance pas équipe a une influance sur la victoire
-
-```{r child = 'assistForVictory.Rmd'}
-```
-
-### La nombre de gold récupéré pas équipe a une influance sur la victoire
-
-```{r child = 'goldForVictory.Rmd'}
-```
-
-### Certains champions ont une influance sur la victoire
-
-```{r child = 'championForVictory.Rmd'}
-```
-
-### Lle nombre de tours détruites par équipe a une influance sur la victoire
-
-```{r child = 'towerForVictory.Rmd'}
+\newpage
+```{r child = 'hypotheses/win.rmd'}
 ```

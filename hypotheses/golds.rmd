@@ -1,0 +1,20 @@
+## La quantité de golds récupérés par un joueur influe sur son total d'experience
+
+<!-- TODO : intro -->
+
+**H0**
+
+**H1**
+
+```{r}
+plot(data$goldEarned ~ data$xp)
+```
+
+Afin de réfuter H1, nous effectuons un test d'indépendance entre le nombre de gold récupérés et le total d'experience en fin de match.
+
+```{r}
+cor.test(data$goldEarned, data$xp)$p.value
+```
+Le p-value de 0 nous permet de réfuter largement H1 et donc de vérifier H0. De plus nous pouvons constater une dépendance linéaire positive entre les deux caractéristiques.
+
+Ces résultats nous permettent largement d'affirmer que la quantité de gold récupé&ré par un joueur influe sur son total d'experience en fin de combat. Cela peut s'expliquer par une mention de la quantité de gold récupérer dans le calcul de l'experience mais aussi par la mention d'une caracteristque corolaire à l'or comme le nombre de minions tués par un joueur. <!-- TODO : à vérifier -->

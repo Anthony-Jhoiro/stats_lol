@@ -29,7 +29,7 @@ goldLose <- rowSums(lose)
 
 Ensuite, on voudrait comparer ces données, pour ce faire, nous allons les comparer à la moyenne du nombre total de gold récupéré par équipe. Nous allons donc réaliser un teste de conformité. Nous mettons le seuil à 0.05.
 
-```{r}
+```{r}^
 "P value résultant du test d'homogénéité :"
 t.test(goldWin, goldLose, alternative = "greater")$p.value
 ```
