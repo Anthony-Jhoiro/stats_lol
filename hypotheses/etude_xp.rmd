@@ -1,0 +1,152 @@
+---
+title: "Kilian RMD parce que c'est enervant de modifier le même fichier par git"
+author: "Kilian DEBRAUX Anthony QUERE"
+date: "01/12/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+data_lol <- read.csv('../player_team_lol_data.csv', sep=',');
+library(questionr);
+library(stats);
+library(OneTwoSamples);
+
+# récupération des xp de tous les joueurs
+vec_xp <- c(data_lol[,"xp1"], data_lol[,"xp2"], data_lol[,"xp3"], data_lol[,"xp4"], data_lol[,"xp5"], data_lol[,"xp6"], data_lol[,"xp7"], data_lol[,"xp8"], data_lol[,"xp9"], data_lol[,"xp10"]);
+# filtrage des xp (si xp == -1, alors c'est que le parseur n'a pas trouvé de valeur, on ne compte donc pas ces joueurs)
+vec_xp <- vec_xp[vec_xp != -1];
+
+```
+
+# Etude sur l'experience accumulée par les joueurs pendant la partie
+
+## Etude de données sur l'expérience
+Pour commencer, nous allons voir quelques données sur la variable **xp**, qui correspond à l'expérience engrangée par un joueur lors d'une partie. Cela permettra plus tard de mettre en contexte les observations par rapport à cette variable (par exemple, on pourra voir si la fréquence de répartion de l'**xp** a une importance dans certaines observations et peuvent mener à de faux résultats).  
+
+
+La première données intéressante sur cette variable serait la *moyenne*. Cela permetterait d'avoir un repère quant à l'**xp** engendrée, et de savoir si une valeur s'écarte trop de la *moyenne*. De plus, nous allons stocker la *moyenne* car elle pourrait servir plus tard.
+
+```{r}
+moy_xp = mean(vec_xp);
+print(moy_xp); # affichage de la moyenne
+```
+
+Maintenant que nous avons stocké la *moyenne*, nous pouvons regarder plus généralement les données concernant l'**xp** comme la *mediane* ou encore les *quartiles* grâce à la commande summary.
+
+```{r}
+summary(vec_xp);
+```
+On peut voir que plusieurs choses :
+1. Les *quartiles* ne semblent pas beaucoup s'écarter la *moyenne*, ce qui pourrait indiquer une bonne homogénéité de l'échatillon. Mais cela reste à montrer avec un calcul de la *variance*, et il se pourrait que le calcul infirme ce que notre approximation semble dire
+2. La *mediane* est plus basse que la *moyenne*. Cela signifie que plus de 50% des joueurs ont une **xp** inférieure à la *moyenne* en fin de partie. Il n'est donc pas aisé de gagner plus d'**xp** que la *moyenne*. Nous pourrons tenter d'y trouver une explication grâce à de futures observations.
+
+En attendant, nous pouvons avoir un aperçu graphique des chiffres vus plus haut grâce à un boxplot :
+
+```{r}
+vec_outliers <- boxplot(vec_xp)$out;
+vec_wo_outliers <- vec_xp[!(vec_xp %in% vec_outliers)]
+```
+
+On voit, sur le boxplot, la *mediane* (un trait noir épais), les 1er et 3ème *quartiles* (bord inférieur et supérieur du rectangle gris), et les valeurs extrêmes : *minimum* et *maximum* (symbolisées par un trait en dessous et au dessus des pointillées). Cependant, 2 choses : on voit que le *maximum* sur le boxplot est aux alentour de 2000, alors que plus haut, nous avons vu que le maximum était à 3903.1, et on peut voir beaucoup de petits cercles au dessus du *maximum*.
+
+Ces cercles sont ce que l'on appelle les *valeurs aberrantes*, ou en anglais : *outliers*. Ce sont des valeurs qui sont considérées comme trop loin des autres valeurs et qui pourraient donc fausser les résultats.
+
+On a donc récupérer ces *outliers* ainsi que la liste des **xp** qui ne sont pas des *outliers* afin de pouvoir faire des observations avec et sans les *outliers*.
+
+## Test sur l'homogénéité de l'expérience
+
+Afin de savoir si l'**xp** est une variable à forte dispertion, il faut que l'on calcule l'*écart type*. On va le faire avec toutes les valeurs de l'**xp** puis sur les valeurs des **xp sans outliers**. Le but sera de comparer leur *écart type*. Normalement, l'*écart type* du second sera plus petit que le premier et donc l'échantillon devrait être plus homogène, mais il reste intéressant de voir à quel point retirer les *outliers* a influencer l'homogénéité.
+
+```{r}
+sd(vec_xp);
+sd(vec_wo_outliers);
+sd(vec_wo_outliers) / sd(vec_xp);
+```
+On voit effectivement que l'*écart type* de l'échantillon sans les *outliers* est plus petit que l'*écart type* de l'échantillon complet. Il a même diminué de presque **25%**. Le but de faire des tests ensuite sans les *outliers* est d'avoir une hétérogénéité diminuée de 25%.
+
+## Détermination d'une loi de probabilité pour représenter l'expérience
+
+Nous allons essayer de voir avec quelle loi de probabilité nous pouvons approcher la distribution de l'**xp**. Il y a de fortes chances de penser que la distribution approchera la loi normale, nous allons donc voir un histogramme des **xp**.
+
+```{r}
+hist(vec_xp, breaks = 200, main = "Répartition des fréquence d'xp");
+```
+
+On voit sur ce graphique que la distribution se rapproche en effet de la loi normale. Comme nous pouvons calculer la *moyenne* et l'*écart type* de la série, nous pouvons calculer la probabilité d'avoir un certain nombre d'**xp** :
+
+```{r}
+1 - pnorm(2000, mean = moy_xp, sd = sd(vec_xp));
+```
+
+Par exemple, ici, on a **1.4%** de chances d'obtenir plus de **2000 xp** à la fin de la partie.
+
+Pour eviter les répétitions, on peut même créer des fonctions pour calculer les probabilités d'avoir tant d'**xp** :
+
+```{r}
+pxp <- function(q){
+  return(pnorm(q, mean = moy_xp, sd = sd(vec_xp)));
+}
+
+dxp <- function(q){
+  return(dnorm(q, mean = moy_xp, sd = sd(vec_xp)));
+}
+
+rxp <- function(n){
+  return(rnorm(n, mean = moy_xp, sd = sd(vec_xp)));
+}
+```
+
+Voilà, maintenant, imaginons que l'on veut connaître la probabilité d'avoir moins de **500 xp** ainsi que la probabilité d'avoir exactement le nombre d'**xp** moyen, on peut utiliser ces fonctions :
+
+```{r}
+pxp(500) # probabilité que xp < 500
+dxp(moy_xp) # probabilité que xp = moyenne d'xp
+```
+On a donc **16%** de chance d'avoir moins de **500 xp** à la fin d'une partie, et **0.08%** de chance d'obtenir exactement la moyenne.
+
+On peut aussi simuler une partie par exemple en tirant **10 xp** (pour les 10 joueurs de la partie) au sort suivant la répartition des **xp**
+
+```{r}
+fgame <- as.data.frame(t(rxp(10)));
+names(fgame) <- c("joueur1","joueur2","joueur3","joueur4","joueur5","joueur6","joueur7","joueur8","joueur9","joueur10")
+fgame;
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
