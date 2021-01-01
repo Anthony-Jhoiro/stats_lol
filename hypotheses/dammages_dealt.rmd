@@ -23,6 +23,20 @@ Le `P-value` de *0* nous permet de réfuter H1 et donc de valider H0. De plus le
 
 Nous pouvons donc conclure que le nombre de dommage influgés par un joueur a une grande influence sur la quantité d'xp qu'il recevra en fin de partie. Cela peut s'expliquer aisément car cette valeur est un bon indicateur des performances d'un joueur. 
 
+### En enlevant les valeurs abérentes
+```{r}
+# Remove unnecessary values (we remove players that gains no xp and players that dealt no dammages, because this is due to innactivity)
+dd_a <- boxplot(data$totalDamageDealt)$out
+data2 <- subset(data, !(totalDamageDealt %in% dd_a))
 
+xp_a <- c(0, boxplot(data2$xp)$out)
+data2 <- subset(data2, !(xp %in% xp_a))
+
+plot(data2$totalDamageDealt ~ data2$xp)
+```
+
+```{r}
+cor.test(data2$xp, data2$totalDamageDealt)$p.value
+```
 
 

@@ -18,8 +18,7 @@ m = matrix(data3$xp, nrow = 2, byrow = TRUE)
 chisq.test(m)$p.value
 ```
 
-
-
+Le p-value de 0 nous permet de réfuter l'hypothèse H1 et donc d'approuver H0. La victoire semble donc jouer un role très important sur le total d'experience gagné par un joueur en fin de partie. L'experience servant à améliorer un champion, 
 
 
 > Le résultat "0" nous semble très étrange. Quand nous regardons le boxplot ainsi que la matrice, on remarque une différence mais minime. Le p value de 0 signifie une corélation évidente entre la victoire et la quantité d'experience remportée or le total d'experience est majoritairement calculé pendant la partie, ce n'est pas ce que nous constatons avec ce p-value
