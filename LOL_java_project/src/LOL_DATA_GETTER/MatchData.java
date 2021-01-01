@@ -42,6 +42,16 @@ public class MatchData {
         return infoStat;
     }
 
+    public long[] getMatchDurationForAllPayers() {
+        long matchDuration = (long) this.matchData.get("gameDuration");
+
+        long[] usrDuration = new long[10];
+        for (int i = 0;i < 10; i++) {
+            usrDuration[i] = matchDuration;
+        }
+        return usrDuration;
+    }
+
     public long[] getFromMatchParticipant(String field) {
         long[] championIds = new long[10];
         for (int i = 0; i < this.participantsData.size(); i++) {

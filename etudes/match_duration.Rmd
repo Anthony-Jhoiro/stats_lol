@@ -1,0 +1,56 @@
+## La durée des matchs et l'experience
+
+Notee problématique concernant le gain d'experience post -match, nousnous sommes renseigné quelles caractéristiques pouvaient avoir un rôle dans le gain d'experience et il semblerait que la dur&ée des matchs ait une importance capitale. Nous retrouvons cette valeur à partir du premier jeu de donnée (par match) dans la colonne `gameDuration`.<!-- TODO : completer introduction -->
+
+```{r}
+# Pour la suite, nous allons extraire uniquement les deux variables dont nous avons besoin
+dataDurationXp <- data[,c("matchDuration", "xp")]
+# Nous retirons également les ligneqs avec une durée nulle ainsi que celles avec un xp nul, car ce sont des cas ou le joueur ne jouaut pas ou  le match ne s'est pas lancé.
+dataDurationXp <- filter(dataDurationXp, matchDuration != 0)
+dataDurationXp <- filter(dataDurationXp, xp != 0)
+```
+
+Notre objectif est de montrer une éventuelle variation simultanée entre les variables `matchDuration` et `xp`.
+
+```{r}
+plot(dataDurationXp$matchDuration, dataDurationXp$xp)
+```
+
+Nous pouvons déjà faire quelques remarques à partir de cette courbe. Premièrement plus les matchs durent longtemps, plus les joueurs semblent récupérer de l'expérience. Ensuite la courbe fait une sorte d'escalier ce qui pourrait indiquer qu'une fraction arrondie du temps de jeu a une influence sur l'experience. Enfin, nous pouvons constater une dépendance positive, il est cependant difficile d'affirmer qu'elle est linéaire ou non.
+
+### Les coefficients
+Examinons maintenant les différents coefficients afin de mieux comprendre la dépendance entre ces deux variables
+
+```{r}
+# Coefficient de corélation linéaire de Pearson (Compris entre -1 et 1, si la valeur absolue du coefficient est plus proche de 1 qu de 0, il y a une dépendance linéaire)
+c_pearson <- cor(dataDurationXp$matchDuration, dataDurationXp$xp)
+# Coefficient de corélation des rangs de Spearman (Compris entre -1 et 1, si la valeur absolue du coefficient est plus proche de 1 qu de 0, il y a une liaison monotone (si négatif, la liaison est inverse))
+c_spearman <- cor(dataDurationXp$matchDuration, dataDurationXp$xp, method = "spearman")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

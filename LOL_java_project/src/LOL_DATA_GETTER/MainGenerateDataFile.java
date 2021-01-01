@@ -1,84 +1,88 @@
 package LOL_DATA_GETTER;
+
 import java.io.File;
 
 import java.util.ArrayList;
+
 import org.json.simple.JSONObject;
 
 /**
  * @author akarami
  * @author anthony
- *
  */
 
 public class MainGenerateDataFile {
 
-	public static final String MATCHES_FILES_DIRECTORY = "files/matches/";
-	public static final String OUTPUT_DATA_DIRECTORY = "files/data/";
-	public static final String DESTINATION = OUTPUT_DATA_DIRECTORY + "player_lol_data.CSV";
-	public static final int MATCH_PLAYER_COUNT = 10;
+    public static final String MATCHES_FILES_DIRECTORY = "files/matches/";
+    public static final String OUTPUT_DATA_DIRECTORY = "files/data/";
+    public static final String DESTINATION = OUTPUT_DATA_DIRECTORY + "player_lol_data.CSV";
+    public static final int MATCH_PLAYER_COUNT = 10;
 
-	private static final String[] FIELDS = {
-			"xp",
-			"totalDamageDealt",
-			"goldEarned",
-			"totalMinionsKilled",
-			"championId",
-			"assists",
-			"inhibitorKills",
-			"firstBloodKill",
-			"win"};
-	private static final String XP_FIELD = "xp";
+    private static final String[] FIELDS = {
+            "xp",
+            "totalDamageDealt",
+            "goldEarned",
+            "totalMinionsKilled",
+            "championId",
+            "assists",
+            "inhibitorKills",
+            "firstBloodKill",
+            "win",
+            "matchDuration"
+    };
+    private static final String XP_FIELD = "xp";
 
 
-	public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
 
-		//get the list of matches ids from the files name in the matches info directory
-		ReadWriteFiles.clearFile(DESTINATION);
-		File matchesFolder = new File(MATCHES_FILES_DIRECTORY);
-		ArrayList<String> listMatchesID = new ArrayList<String>();
-		for (File fileEntry : matchesFolder.listFiles()) {
-			String[] parts = fileEntry.getName().split("_");
-			if(parts[1].startsWith("match"))
-				listMatchesID.add(parts[0]);
-		}
+        //get the list of matches ids from the files name in the matches info directory
+        ReadWriteFiles.clearFile(DESTINATION);
+        File matchesFolder = new File(MATCHES_FILES_DIRECTORY);
+        ArrayList<String> listMatchesID = new ArrayList<String>();
+        for (File fileEntry : matchesFolder.listFiles()) {
+            String[] parts = fileEntry.getName().split("_");
+            if (parts[1].startsWith("match"))
+                listMatchesID.add(parts[0]);
+        }
 
-		System.out.println("Total number of matches " + listMatchesID.size());
-		String output = String.join(",", FIELDS) + ",\n";
-		ReadWriteFiles.writeLineToFile(output,  DESTINATION);
-		int cpt = 0;
-	   	//Treate all matches
-		for (String matchId : listMatchesID){
+        System.out.println("Total number of matches " + listMatchesID.size());
+        String output = String.join(",", FIELDS) + ",\n";
+        ReadWriteFiles.writeLineToFile(output, DESTINATION);
+        int cpt = 0;
+        //Treate all matches
+        for (String matchId : listMatchesID) {
 
 //			System.out.println("Processing : ");
 //			JSONObject matchData = ReadWriteFiles.readJsonFromFile(MATCHES_FILES_DIRECTORY + "" + matchId + "_match.JSON");
 //			JSONObject matchTimelines = ReadWriteFiles.readJsonFromFile(MATCHES_FILES_DIRECTORY + "" + matchId + "_timelines.JSON");
-			System.out.println(cpt + " match id = " + matchId + " treated");
-			cpt++;
+            System.out.println(cpt + " match id = " + matchId + " treated");
+            cpt++;
 
-			MatchData matchData = new MatchData(MATCHES_FILES_DIRECTORY + "" + matchId + "_match.JSON");
+            MatchData matchData = new MatchData(MATCHES_FILES_DIRECTORY + "" + matchId + "_match.JSON");
 
-			double[] xps = matchData.getMatchPayersXp();
-			long[] totalDamageDealt = matchData.getFromMatchParticipantStat("totalDamageDealt");
-			long[] goldEarned = matchData.getFromMatchParticipantStat("goldEarned");
-			long[] totalMinionsKilled = matchData.getFromMatchParticipantStat("totalMinionsKilled");
-			long[] championIds = matchData.getFromMatchParticipant("championId");
-			long[] assists = matchData.getFromMatchParticipantStat("assists");
-			long[] inhibitorKills = matchData.getFromMatchParticipantStat("inhibitorKills");
-			long[] firstBloodKill = matchData.getFromMatchParticipantStatBoolean("firstBloodKill");
-			long[] win = matchData.getFromMatchParticipantStatBoolean("win");
+            double[] xps = matchData.getMatchPayersXp();
+            long[] totalDamageDealt = matchData.getFromMatchParticipantStat("totalDamageDealt");
+            long[] goldEarned = matchData.getFromMatchParticipantStat("goldEarned");
+            long[] totalMinionsKilled = matchData.getFromMatchParticipantStat("totalMinionsKilled");
+            long[] championIds = matchData.getFromMatchParticipant("championId");
+            long[] assists = matchData.getFromMatchParticipantStat("assists");
+            long[] inhibitorKills = matchData.getFromMatchParticipantStat("inhibitorKills");
+            long[] firstBloodKill = matchData.getFromMatchParticipantStatBoolean("firstBloodKill");
+            long[] win = matchData.getFromMatchParticipantStatBoolean("win");
+            long[] matchDuration = matchData.getMatchDurationForAllPayers();
 
-			long[][] toLoad = {totalDamageDealt, goldEarned, totalMinionsKilled, championIds, assists, inhibitorKills, firstBloodKill, win};
+            long[][] toLoad = {totalDamageDealt, goldEarned, totalMinionsKilled, championIds, assists, inhibitorKills, firstBloodKill, win, matchDuration};
 
-			StringBuilder lines = new StringBuilder();
-			for (int i = 0; i < MATCH_PLAYER_COUNT; i++) {
-				lines.append(xps[i]).append(",");
-				for (long[] field : toLoad) {
-					lines.append(field[i]).append(",");
-				}
-				lines.append("\n");
-			}
+            StringBuilder lines = new StringBuilder();
+            for (int i = 0; i < MATCH_PLAYER_COUNT; i++) {
+                lines.append(xps[i]).append(",");
+                for (long[] field : toLoad) {
+                    lines.append(field[i]).append(",");
+                }
+                lines.append("\n");
+            }
 
-			ReadWriteFiles.writeLineToFile(lines.toString(),  DESTINATION);
+            ReadWriteFiles.writeLineToFile(lines.toString(), DESTINATION);
 
 //			//get data from match file
 //			long duration = MatchDataTreatement.getGameDuration(matchData);
@@ -121,8 +125,8 @@ public class MainGenerateDataFile {
 //			output += inhibitorKills[1] + ", " + dragonKills[1] + ", " + baronKills[1] + ", " + towerKills[1] + ", "
 //						+ win[1] + "\n";
 //			//print data line into file
-		}
-	}
+        }
+    }
 }
 
 

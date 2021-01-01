@@ -38,3 +38,30 @@ library(dplyr)
 \newpage
 ```{r child = 'hypotheses/win.rmd'}
 ```
+
+# Parties personnelles
+
+```{r child = 'parties_persos/anthony.md'}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
