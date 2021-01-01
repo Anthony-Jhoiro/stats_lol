@@ -1,0 +1,253 @@
+---
+title: "kills d'affiles"
+author: "Kilian DEBRAUX Anthony QUERE"
+date: "31/12/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# création des data.frame pour les kills d'affiles
+data_double <- data.frame(c(data_lol[,"doubleKills1"], data_lol[,"doubleKills2"], data_lol[,"doubleKills3"], data_lol[,"doubleKills4"], data_lol[,"doubleKills5"], data_lol[,"doubleKills6"], data_lol[,"doubleKills7"], data_lol[,"doubleKills8"], data_lol[,"doubleKills9"], data_lol[,"doubleKills10"]), c(data_lol[,"xp1"], data_lol[,"xp2"], data_lol[,"xp3"], data_lol[,"xp4"], data_lol[,"xp5"], data_lol[,"xp6"], data_lol[,"xp7"], data_lol[,"xp8"], data_lol[,"xp9"], data_lol[,"xp10"]));
+
+data_triple <- data.frame(c(data_lol[,"tripleKills1"], data_lol[,"tripleKills2"], data_lol[,"tripleKills3"], data_lol[,"tripleKills4"], data_lol[,"tripleKills5"], data_lol[,"tripleKills6"], data_lol[,"tripleKills7"], data_lol[,"tripleKills8"], data_lol[,"tripleKills9"], data_lol[,"tripleKills10"]), c(data_lol[,"xp1"], data_lol[,"xp2"], data_lol[,"xp3"], data_lol[,"xp4"], data_lol[,"xp5"], data_lol[,"xp6"], data_lol[,"xp7"], data_lol[,"xp8"], data_lol[,"xp9"], data_lol[,"xp10"]));
+
+data_quadra <- data.frame(c(data_lol[,"quadraKills1"], data_lol[,"quadraKills2"], data_lol[,"quadraKills3"], data_lol[,"quadraKills4"], data_lol[,"quadraKills5"], data_lol[,"quadraKills6"], data_lol[,"quadraKills7"], data_lol[,"quadraKills8"], data_lol[,"quadraKills9"], data_lol[,"quadraKills10"]), c(data_lol[,"xp1"], data_lol[,"xp2"], data_lol[,"xp3"], data_lol[,"xp4"], data_lol[,"xp5"], data_lol[,"xp6"], data_lol[,"xp7"], data_lol[,"xp8"], data_lol[,"xp9"], data_lol[,"xp10"]));
+
+data_penta <- data.frame(c(data_lol[,"pentaKills1"], data_lol[,"pentaKills2"], data_lol[,"pentaKills3"], data_lol[,"pentaKills4"], data_lol[,"pentaKills5"], data_lol[,"pentaKills6"], data_lol[,"pentaKills7"], data_lol[,"pentaKills8"], data_lol[,"pentaKills9"], data_lol[,"pentaKills10"]), c(data_lol[,"xp1"], data_lol[,"xp2"], data_lol[,"xp3"], data_lol[,"xp4"], data_lol[,"xp5"], data_lol[,"xp6"], data_lol[,"xp7"], data_lol[,"xp8"], data_lol[,"xp9"], data_lol[,"xp10"]));
+
+
+# nommage des colonnes
+names(data_double) <- c("doubleKills", "xp");
+
+names(data_triple) <- c("tripleKills", "xp");
+
+names(data_quadra) <- c("quadraKills", "xp");
+
+names(data_penta) <- c("pentaKills", "xp");
+
+# filtration avec les xp à -1
+
+data_double <- subset(data_double, xp > -1);
+data_triple <- subset(data_triple, xp > -1);
+data_quadra <- subset(data_quadra, xp > -1);
+data_penta <- subset(data_penta, xp > -1);
+```
+
+# Etude de l'importance d'effectuer des kills d'affiler pour obtenir de l'expérience
+
+Lors d'un match de *League of Legends*, une des parties les plus importantes du gameplay est de tuer ses adversaires afin de progresser vers la base adverse. Dans cette même logique, le jeu distribue un bonus lorsque des kills d'affilés sont réalisés (il faut moins de 10 secondes entre chaque kill). Dans le jeu, on peut aller d'un double kill (2 adversaires tués en moins de 10 secondes) à un penta kills (les 5 adversaires tués d'affiler). En effet, les équipes étant composées de 5 joueurs, un penta kill signifie que l'on a tué l'ensemble de l'équipe adverse.  
+
+Comme dit précédemment, les kills d'affilés donnent des bonus. Nous allons donc voir ici à quel point les bonus d'expérience gagnés lors de kills d'affilés permettent d'augmenter le total d'**xp** gagné à la fin de la partie.
+
+## Etude de la répartition des kills d'affilés
+
+Pour commencer, nous allons voir comment se répartissent les **kills d'affilés** (on peut supposer qu'il sera plutôt rare d'en trouver, et donc que l'on va avoir beaucoup de valeurs à 0). On va commencer par afficher la répartition des **doubles kills**.
+
+```{r}
+barplot(freq(data_double$doubleKills)$`%`, names.arg = c(0:max(data_double$doubleKills)), main = "Pourcentages du nombre de doublekills effectué en une partie", ylab = "%");
+```
+
+On voit sur le graphique que dans presque **70%** des cas, le joueur n'effectue aucun **doublekills**. Les pourcentage reste quand même assez élevés pour 1, 2 et 3 **doubleskills**, mais après, les pourcentages sont très proches de 0. On peut afficher la table de fréquence pour voir à quel nombre de **doublekills** le pourcentage passe sous **1%**.
+
+```{r}
+freq(data_double$doubleKills);
+```
+
+On voit qu'il y a moins de **1%** des joueurs qui font 5 **doublekills** ou plus au cours d'une partie. Pour nos futures observations, on va créer une variable où l'on exclue le 0 **doubleKills**
+
+```{r}
+data_double_zeroplus <- subset(data_double, doubleKills > 0);
+```
+
+A présent nous pouvons faire les mêmes observations pour les autres kills d'affilés. Et le suivant sera le **tripleKills**
+
+```{r}
+barplot(freq(data_triple$tripleKills)$`%`, names.arg = c(0:max(data_triple$tripleKills)), main = "Pourcentages du nombre de triplekills effectué en une partie", ylab = "%");
+```
+
+On voit sur le graphique que dans plus de **80%** des cas, le joueur n'effectue aucun **triplekills**. Les pourcentages tombent tout de suite très bas ensuite, si bien qu'à partir de 2 **tripleKills**, ils sont très proches de 0. On peut afficher la table de fréquence pour voir à quel nombre de **triplekills** le pourcentage passe sous **1%**.
+
+```{r}
+freq(data_triple$tripleKills);
+```
+
+On voit qu'il y a moins de **1%** des joueurs qui font 2 **triplekills** ou plus au cours d'une partie.Pour nos futures observations, on va créer une variable où l'on exclue le 0 **tripleKills**
+
+```{r}
+data_triple_zeroplus <- subset(data_triple, tripleKills > 0);
+```
+
+On peut observer pour les **quadraKills**, mais les pourcentages risquent d'être de moins en moins utilisables car l'écart entre 0 et le reste des valeurs va se faire très fort.
+
+```{r}
+barplot(freq(data_quadra$quadraKills)$`%`, names.arg = c(0:max(data_quadra$quadraKills)), main = "Pourcentages du nombre de quadrakills effectué en une partie", ylab = "%");
+```
+
+On voit sur le graphique que dans plus de **80%** des cas, le joueur n'effectue aucun **quadraKills**. Les pourcentages tombent tout de suite très bas ensuite, si bien qu'à partir d'à peine 1 **quadraKills**, on est presque à 0. On peut afficher la table de fréquence pour voir plus précisément l'écart entre le 0 et les autres valeurs.
+
+```{r}
+freq(data_quadra$quadraKills);
+```
+
+On voit qu'il y a **98.9%** qui ne font pas de **quadraKills**. Il serait étonnant de pouvoir avoir des résultats probant avec cette statistique.
+
+Voyons les statistiques de **pentaKills**, même si elles risquent d'être encore plus aberrantes.
+
+```{r}
+barplot(freq(data_penta$pentaKills)$`%`, names.arg = c(0:max(data_penta$pentaKills)), main = "Pourcentages du nombre de pentakills effectué en une partie", ylab = "%");
+```
+
+On voit sur le graphique qu'il n'y a que des joueurs qui ont fait 0 ou 1 **pentaKill** sur ces 1040 parties. Et le chiffre 1 semble bien bas. On peut se dire que plus de **99%** des joueurs n'effectue pas de **pentaKills** lors de leur partie. On peut regarder la table des fréquences pour connaître le nombre de **pentaKills** en pourcentage.
+
+```{r}
+freq(data_penta$pentaKills);
+```
+
+En effet, on voit que **99.8%** des joueurs ne font pas de **pentaKills**. Cette forte proportion risque d'interférer lorsque nous voudrons trouver une corrélation entre l'**xp** gagné et les **pentaKills** réalisés.
+
+## Etude d'une corrélation entre les kills d'affilés et l'expérience gagné
+
+Le but de cette étude est de trouver s'il y a une corrélation entre les différents kills d'affilés réalisés et le nombre d'**xp** gagné. Attention, on pourrait être ammené à penser, si on trouve une corrélation, que plus on réalise de kills d'affilés, plus on a d'**xp**. Or ce serait faux, on peut juste montrer que les 2 ont un lien, mais après, 4 cas de figure peuvent s'offrir à nous : 
+1. En effet, il se peut que plus l'on fait de kills d'affilés et plus on gagne d'**xp**
+2. Il se peut aussi que ce soit l'inverse : plus on gagne d'**xp** et plus on a de chances d'effectuer des kills d'affilés. Si par exemple notre niveau monte au cours du match, on sera plus fort qu'au début et donc plus à même de faire des kills d'affilés
+3. Les 2 sont la conséquence d'une autre cause qui n'est pas prise en compte ici. Par exemple, si un joueur est fort, il aura tendance à avoir beaucoup d'**xp** ET à faire beaucoup de kills d'affilés. Pour autant, le fait d'avoir beaucoup d'**xp** est la conséquence du niveau du joueur et pas du nombre de kills d'affilés réalisés.
+4. La corrélation peut être fausse. En effet, lorsque l'on valide une corrélation, il reste un niveau d'incertitude (en principe on est sûr à au moins 95% lorsque l'on valide une hypothèse), et il se peut que notre corrélation ne soit qu'une coïncidence.
+
+Pour faire nos tests, nous allons aussi créer une version des données avec les **xp** non aberrantes
+
+```{r}
+data_double_wo <- subset(data_double, xp %in% vec_wo_outliers);
+data_double_zeroplus_wo <- subset(data_double_zeroplus, xp %in% vec_wo_outliers);
+data_triple_wo <- subset(data_triple, xp %in% vec_wo_outliers);
+data_triple_zeroplus_wo <- subset(data_triple_zeroplus, xp %in% vec_wo_outliers);
+data_quadra_wo <- subset(data_quadra, xp %in% vec_wo_outliers);
+data_penta_wo <- subset(data_penta, xp %in% vec_wo_outliers);
+```
+
+### DoubleKills
+
+Nous allons d'abord étudier comment les **doubleKills** et l'**xp** gagné sont corrélés. Pour cela, nous allons poser les hypothèses suivantes :  
+
+H0 : les **doubleKills** et les **xp** sont indépendant
+H1 : il existe une corrélation entre les 2 caractères  
+
+
+```{r}
+cor.test(x = data_double$xp, y = data_double$doubleKills)$p.value;
+```
+
+On obtient un p value de *8.12e-153*, ce qui est très très bas et donc plutôt incohérent. Pour essayer d'avoir des résultats plus cohérents, nous allons essayer de refaire une corrélation en excluant les **xp** pour lesquel les **doubleKills** sont égaux à 0.
+
+```{r}
+cor.test(x = data_double_zeroplus$xp, y = data_double_zeroplus$doubleKills)$p.value;
+```
+
+On obtient un p value de *7.11e-19* ce qui est déjà une nette amélioration, mais reste tout de même très bizarre. Pour encore affiner les résultats, nous allons essayer en excluant les valeurs aberrantes des **xp**.
+
+```{r}
+cor.test(x = data_double_zeroplus_wo$xp, y = data_double_zeroplus_wo$doubleKills)$p.value;
+```
+
+Cette fois ci, on obtient un p value de *0.003* ce qui nous permet de rejeter H0 et donc de valider H1 avec une confiance de *99.7%*, soit une confiance très significative (2 étoiles).
+
+Pour les autres tests, nous allons tout de suite travailler sans le 0 et sans les valeurs aberrantes pour l'**xp**.
+
+
+
+
+
+### tripleKills
+
+Ensuite, nous allons étudier comment les **tripleKills** et l'**xp** gagné sont corrélés. Pour cela, nous allons poser les hypothèses suivantes :  
+
+H0 : les **tripleKills** et les **xp** sont indépendant
+H1 : il existe une corrélation entre les 2 caractères  
+
+
+```{r}
+cor.test(x = data_triple_zeroplus_wo$xp, y = data_triple_zeroplus_wo$tripleKills)$p.value;
+```
+
+Cette fois ci, on obtient un p value de *0.12*. Or, un p value supérieur à *0.05* est trop haut pour pouvoir rejeter H0. Nous allons donc tester avec les **tripleKills** de 0.
+
+```{r}
+cor.test(x = data_triple_wo$xp, y = data_triple_wo$tripleKills)$p.value;
+```
+
+On obtient un p value de 1.38e-17, ce qui est très bas, et donc sûrement incohérent. On ne pourra donc pas rejeter H0 suite à ces analyses statistiques.
+
+
+
+
+
+### quadraKills
+
+Par la suite, nous allons étudier comment les **quadraKills** et l'**xp** gagné sont corrélés. Pour cela, nous allons poser les hypothèses suivantes :  
+
+H0 : les **quadraKills** et les **xp** sont indépendant
+H1 : il existe une corrélation entre les 2 caractères  
+
+Comme la population de joueur ayant réalisé 0 **quadraKills** est très élevée, on va les inclures dans le test.
+
+```{r}
+cor.test(x = data_quadra_wo$xp, y = data_quadra_wo$quadraKills);
+```
+
+On obtient un p value de *2.02e-6*, c'est assez peu, mais quand même proche d'une valeur réaliste. On ne va donc pas rejeter H0 par précaution, mais la corrélation entre **xp** et **quadraKills** reste possible.
+
+
+
+
+
+### pentaKills
+
+Nous allons d'abord étudier comment les **pentaKills** et l'**xp** gagné sont corrélés. Pour cela, nous allons poser les hypothèses suivantes :  
+
+H0 : les **pentaKills** et les **xp** sont indépendant
+H1 : il existe une corrélation entre les 2 caractères  
+
+Tout comme les **quadraKills**, la population de joueur ayant réalisé 0 **pentaKills** est très élevée, on va donc les inclures dans le test.
+
+```{r}
+cor.test(x = data_penta_wo$xp, y = data_penta_wo$pentaKills)$p.value;
+```
+
+On obtient un p value de *0.02*, ce qui nous permet de rejeter H0 avec une confiance de **98%**. On peut donc valider H1 et penser qu'il existe une corrélation entre le nombre de **pentaKills** réalisés et l'**xp** gagné en un match.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
