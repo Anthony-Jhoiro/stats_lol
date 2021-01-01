@@ -7,12 +7,16 @@ Dans la majorité des jeux comportant du combats, les dommages infligés par un 
 **H1** : Le nombre de dommage infligé n'a pas d'incidence sur le total d'experience en fin de combat.
 
 ```{r}
-plot(data$totalDamageDealt ~ data$xp)
+# Remove unnecessary values (we remove players that gains no xp and players that dealt no dammages, because this is due to innactivity)
+data2 <- filter(data, xp != 0)
+data2 <- filter(data2, totalDamageDealt != 0)
+
+plot(data2$totalDamageDealt ~ data2$xp)
 ```
 
 Pour réfuter H1, nous effectuons un test d'indépendance pour réfuter l'indépendance des 2 caractéritiques
 ```{r}
-cor.test(data$xp, data$totalDamageDealt)$p.value
+cor.test(data2$xp, data2$totalDamageDealt)$p.value
 ```
 
 Le `P-value` de *0* nous permet de réfuter H1 et donc de valider H0. De plus le plot nous permet de constater une dépendance linéaire positive entre les deux caractéristiques bien  que la large répartition des points indique que le nombre de dommage infligés n'est pas le seul critère déterminant. 
