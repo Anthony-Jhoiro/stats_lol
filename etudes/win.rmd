@@ -1,0 +1,66 @@
+## La victoire et l'experience
+
+Nous souhaitons maintenans évalur la statistique bidimentionelle composée de l'experience (variable quantitative) et de la victoire (variable qualitative). Notre objectif est de rechercher une éventuelle corélation entre la victoire d'une équipe et le gain d'experience des joueurs.
+
+
+La variable victoirea 2 modalités, nous avons donc 2 sous populations.
+
+```{r}
+dataWinXp <- data[,c("win", "xp")]
+
+d_win <- filter(dataWinXp, win == 1)
+d_lose <- filter(dataWinXp, win == 0)
+
+# On aurait aussi pu obtenir les données avec la fonction `tapply` mais comme on a que 2 résultats, je trouve cette méthode plus explicite
+m_win <- mean(d_win$xp)
+m_lose <- mean(d_lose$xp)
+m_global <-mean(dataWinXp$xp)
+
+print("Moyenne d'experience des joueurs gagnants :", quote = FALSE)
+print(m_win)
+print("Moyenne d'experience des joueurs perdants :", quote = FALSE)
+print(m_lose)
+print("Moyenne de l'ensemble des joueurs :", quote = FALSE)
+print(m_global)
+print("Rapport moyenne d'experience des équipe gagnante contre moyenne d'experience globale :", quote = FALSE)
+cat((m_win / m_global) * 100, "%\n")
+print("Rapport moyenne d'experience des équipe perdante contre moyenne d'experience globale :", quote = FALSE)
+cat((m_lose / m_global) * 100, "%\n")
+
+```
+
+En regardant les moyennes des deux échantillons ainsi que celle de l'échantillon parent nous constatons que celles des échantillons semblent être espacées de façon égales de la moyenne globale. Nous avons donc calculé le rapport entre les moyennes et l'on optien une augmentation d'environ 5% pour les équipes gagnantes par rapport à la moyenne et une diminution de 5% pour les équipes perdantes. 
+
+```{r}
+boxplot(dataWinXp$xp ~ dataWinXp$win)
+```
+
+Dans ce graphique ci-dessus, nous constatons que les joueurs ayant gagné une partie ont sensiblement plus d'experience en fin de partie que les joueurs ayant perdu.
+
+### Conclusion
+Nous pouvons constater par l'étude des moyennes et du graphique ci-dessus qu'il existe bien une corélation entre la victoir d'une équipe et le gain d'experience des joueurs. Cette différence semble être de +-5% mais 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

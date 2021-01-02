@@ -17,16 +17,23 @@ output: pdf_document
 <!-- TODO : List rules (rédiger plus que ça) -->
 alpha = 0.05
 
-\newpage
-# Observations
-<!-- TODO : Summary -->
-
 ```{r setup}
 # Setup librairies and dataset
 data <- read.csv("data/player_lol_data.CSV")
 library(questionr)
 library(dplyr)
 ```
+
+\newpage
+# Analyses statistiques
+```{r child = 'etudes/match_duration.Rmd'}
+```
+
+\newpage
+# Observations
+<!-- TODO : Summary -->
+
+
 
 ```{r child = 'hypotheses/dammages_dealt.rmd'}
 ```

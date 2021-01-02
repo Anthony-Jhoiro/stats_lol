@@ -24,19 +24,33 @@ Examinons maintenant les différents coefficients afin de mieux comprendre la d�
 ```{r}
 # Coefficient de corélation linéaire de Pearson (Compris entre -1 et 1, si la valeur absolue du coefficient est plus proche de 1 qu de 0, il y a une dépendance linéaire)
 c_pearson <- cor(dataDurationXp$matchDuration, dataDurationXp$xp)
+print("Coefficient de Pearson :")
+print(c_pearson)
 # Coefficient de corélation des rangs de Spearman (Compris entre -1 et 1, si la valeur absolue du coefficient est plus proche de 1 qu de 0, il y a une liaison monotone (si négatif, la liaison est inverse))
 c_spearman <- cor(dataDurationXp$matchDuration, dataDurationXp$xp, method = "spearman")
+print("Coefficient de Spearman :")
+print(c_spearman)
 ```
 
+Le coefficient de Spearman est superieur à 0.5, on est donc bien en présence d'une dépendance monotone positive. De plus le coefficient de Pearson montre une linéarité entre les deux variables même si la valeur ne dépasse `0.5` de peu.
 
+Devant ces résultats, nous pouvons aisément émettre l'hypothèse que d'autrees variables affectent l'experience ou alors que le temps de jeu n'est qu'une dérive d'une autre variable. Pour le démontrer, nous étudions le rapport entre l'experience reçu par un joueur et le temps de la partie.
 
+### Recherche d'un cefficient
+Pour travailler avec les coefficients, nous ajoutons une colonne `coef` à nos données ayant pour valeur le rapport entre l'experience et la durée des matchs.
 
+```{r}
+d2 <- transform(dataDurationXp, coef = xp / matchDuration)
+boxplot(d2$coef)
+summary(d2$coef)
+```
 
+La moyenne des  coefficient est de 0.64 avec des quartiles très proches signifiant ainsi que les coefficients sont très homogènes. Cependant les valeurs s'éttendent sur une très grande plage.
 
+On peut donc faire deux hypothèses :
 
-
-
-
+- Il existe une ou plusieur autres variables permettant de calculer le total d'experience d'un joueur
+- Le temps de jeu n'a pas de lien direct avec le calcul de l'experience mais il est influencé par une autre variable qui a un lien direct avec le calcul
 
 
 
