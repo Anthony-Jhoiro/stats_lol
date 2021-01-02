@@ -1,0 +1,86 @@
+# Etude de l'importance d'un firstBlood (premier kill) dans l'expérience gagnée
+
+## Etude préalable sur firstBlood
+```{r}
+# extraction des données pour l'étude du firstBlood
+data_firstBlood <- data.frame(c(data_lol[,"firstBloodKill1"], data_lol[,"firstBloodKill2"], data_lol[,"firstBloodKill3"], data_lol[,"firstBloodKill4"], data_lol[,"firstBloodKill5"], data_lol[,"firstBloodKill6"], data_lol[,"firstBloodKill7"], data_lol[,"firstBloodKill8"], data_lol[,"firstBloodKill9"], data_lol[,"firstBloodKill10"]), c(data_lol[,"xp1"], data_lol[,"xp2"], data_lol[,"xp3"], data_lol[,"xp4"], data_lol[,"xp5"], data_lol[,"xp6"], data_lol[,"xp7"], data_lol[,"xp8"], data_lol[,"xp9"], data_lol[,"xp10"]));
+# nommage des colonnes
+names(data_firstBlood) <- c("fb", "xp");
+# filtrage des colonnes avec un firstBlood (certains fb sont à -1 s'il n'y avait pas de données)
+data_firstBlood <- subset(data_firstBlood, fb > -1)
+```
+
+Tout d'abord, nous allon voir la répartition des firstBlood. Normalement, comme il y n'y en a qu'un seul par partie, la répartition devrait être de 90% de 0 et 10% de 1. Nous allons simplement voir si les données confirment ceci. (comme on a enlever des données, cela peut très légèrement varier).
+
+```{r}
+barplot(freq(data_firstBlood$fb)$`%`, names.arg = row.names(freq(data_firstBlood$fb)))
+```
+
+On voit clairement sur le graphique que l'on approche des **90-10** prévu, on le voit encore mieux grâce à une table des fréquences :
+
+```{r}
+freq(x = data_firstBlood$fb)
+```
+
+Avec ses 2 possibilités seulement, la répartition des **firstBlood** ressemble beaucoup à une répartition selon la loi binomiale, avec 1 chance sur 10 d'avoir un firstBlood. On peut alors, comme avec les **xp**, créer des fonction pour calculer des probabilités et simuler des matchs.
+
+```{r}
+pfb <- function(q, n){
+  return(pbinom(q, n, 1/10));
+}
+
+dfb <- function(q, n){
+  return(dbinom(q, n, 1/10));
+}
+
+rfb <- function(n){
+  return(rbinom(1, n, 1/10));
+}
+```
+
+Maintenant, on peut, par exemple, calculer :
+1. la probabilité de faire au moins un **firstBlood** dans les 3 prochaines parties
+2. la probabilité de réaliser aucun **firstBlood** lors des 30 prochaines parties
+3. simuler 15 parties et savoir combien de **firstBlood** on aurait eu
+
+```{r}
+1 - pfb(0,3) # probabilité de faire au moins 1 firstBlood dans les 3 prochaines parties
+dfb(0,30) # probabilité de réaliser 0 firstBlood en 30 partie
+rfb(15) # simuler 15 partie (le résultat est le nombre de firstBlood que l'on aurait eu)
+```
+
+
+## Etude de la corrélation entre les firstBlood et l'experience gagné
+
+Nous allons d'abord étudier comment les **doubleKills** et l'**xp** gagné sont corrélés. Pour cela, nous allons poser les hypothèses suivantes :  
+
+H0 : les **firstBlood** et les **xp** sont indépendant
+H1 : il existe une corrélation entre les 2 caractères  
+
+
+```{r}
+cor.test(x = data_firstBlood$xp, y = data_firstBlood$fb)$p.value;
+```
+
+On obtient un p value de *0.003*, ce qui est très bien. On peut rejeter H0, et donc accepter H1, avec un taux de confiance de **99.7%**.
+
+### Conclusion
+
+En conclusion, on peut dire avec une très grande confiance qu'il y a une corrélation entre le fait d'effectuer le **firstBlood** et le fait de gagner beaucoup d'**xp**. Cependant, cela ne veux pas dire que l'un est une conséquence de l'autre, on peut juste savoir qu'ils sont liés
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

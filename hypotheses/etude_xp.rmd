@@ -1,12 +1,5 @@
----
-title: "Kilian RMD parce que c'est enervant de modifier le même fichier par git"
-author: "Kilian DEBRAUX Anthony QUERE"
-date: "01/12/2020"
-output: pdf_document
----
-
-```{r setup, include=FALSE}
-data_lol <- read.csv('../player_team_lol_data.csv', sep=',');
+```{r}
+data_lol <- read.csv('../data_kiki/player_team_lol_data.csv', sep=',');
 library(questionr);
 library(stats);
 library(OneTwoSamples);
@@ -92,7 +85,7 @@ dxp <- function(q){
 }
 
 rxp <- function(n){
-  return(rnorm(n, mean = moy_xp, sd = sd(vec_xp)));
+  return(abs(rnorm(n, mean = moy_xp, sd = sd(vec_xp))));
 }
 ```
 
@@ -109,7 +102,7 @@ On peut aussi simuler une partie par exemple en tirant **10 xp** (pour les 10 jo
 ```{r}
 fgame <- as.data.frame(t(rxp(10)));
 names(fgame) <- c("joueur1","joueur2","joueur3","joueur4","joueur5","joueur6","joueur7","joueur8","joueur9","joueur10")
-fgame;
+fgame
 ```
 
 

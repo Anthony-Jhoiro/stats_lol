@@ -1,12 +1,4 @@
----
-title: "kills d'affiles"
-author: "Kilian DEBRAUX Anthony QUERE"
-date: "31/12/2020"
-output: pdf_document
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r}
 # création des data.frame pour les kills d'affiles
 data_double <- data.frame(c(data_lol[,"doubleKills1"], data_lol[,"doubleKills2"], data_lol[,"doubleKills3"], data_lol[,"doubleKills4"], data_lol[,"doubleKills5"], data_lol[,"doubleKills6"], data_lol[,"doubleKills7"], data_lol[,"doubleKills8"], data_lol[,"doubleKills9"], data_lol[,"doubleKills10"]), c(data_lol[,"xp1"], data_lol[,"xp2"], data_lol[,"xp3"], data_lol[,"xp4"], data_lol[,"xp5"], data_lol[,"xp6"], data_lol[,"xp7"], data_lol[,"xp8"], data_lol[,"xp9"], data_lol[,"xp10"]));
 
@@ -210,13 +202,15 @@ H1 : il existe une corrélation entre les 2 caractères
 Tout comme les **quadraKills**, la population de joueur ayant réalisé 0 **pentaKills** est très élevée, on va donc les inclures dans le test.
 
 ```{r}
-cor.test(x = data_penta_wo$xp, y = data_penta_wo$pentaKills)$p.value;
+cor.test(x = data_penta_wo$xp, y = data_penta_wo$pentaKills)$p.value
 ```
 
 On obtient un p value de *0.02*, ce qui nous permet de rejeter H0 avec une confiance de **98%**. On peut donc valider H1 et penser qu'il existe une corrélation entre le nombre de **pentaKills** réalisés et l'**xp** gagné en un match.
 
 
+### Conclusion sur les kills d'affilés
 
+Sur les kills d'affilés, nous avons vu qu'il y avait une forte probabilité qu'il existe une corrélation entre le nombre de **pentaKills** effectués et l'**xp** gagné en fin de partie. On a aussi un bon p value entre les **doubleKills** et l'**xp**, mais le fait d'avoir enlevé les 0 **doubleKills** (qui sont plus de 50% de l'échantillon) fausse le résultat, si l'on ne les enlève pas, on obtient un p value très très bas et donc assez incohérent. Pour les **triples et quadra kills**, le p value est très bas, même en enlevant les valeurs aberrantes. On ne peux donc pas conclure s'il y a eu une erreur de méthodologie, ou s'il y a bien une forte corrélation entre ces caractères.
 
 
 
