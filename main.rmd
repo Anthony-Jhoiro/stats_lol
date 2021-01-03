@@ -8,14 +8,17 @@ output: pdf_document
 
 \newpage
 # Introduction
+Dans League of legends, l'experience permet à un joueur (ou summoner) d'améliorer son niveau. Au fur et à mesure de sa montée de niveau, le joueur va avoir accès à de plus en plus de mode, l'encourageant ainsi à jouer et à progresser. Une fois tous les modes débloqués, les joueurs ont toujours accès à des bonus à chaque montée de niveau. Plus le niveau augmente, plus la quantité d'experience nécéssaire pour passer au niveau suivant est grande. Nous nous sommes donc demandé quelle était la meilleur methode pour gagner de l'experience dans League of Legends. 
 
-<!-- TODO : Introduction -->
+L'experience est souvent abréviée en **xp**.
+
 ## Nos données
-<!-- TODO : Jeu de donnée -->
+L'experience est calculé à la suite d'un match pour chaque joueur. Nous avons donc eu besoin d'avoir les données non pas par équipe mais par joueur. Nous aurions pu utiliser le fichier par match et le découper pour chaque joueur mais comme en plus nous avions bespoin d'ajouter des champs dans le fichier source, nous avons jugé bon de réécrire le parseur afin de ce baser sur un fichier CSV dans lequel une ligne correspond à un joueur. 
+
+Nous avons joint une copie du code de ce projet en retirant les fichiers JSON sources afin de diminuer la taille de l'archive. Nous vous invitons à vous référer au dossier **LOL_java_project** afin d'avoir un aperçu de nos modifications.
 
 ## Nos règles
-<!-- TODO : List rules (rédiger plus que ça) -->
-alpha = 0.05
+Pour tous nos tests impliquant l'étude d'un p-value, nous utilisons une valeur alpha de 0.05.
 
 ```{r setup}
 # Setup librairies and dataset
@@ -51,14 +54,14 @@ library(dplyr)
 ```{r child = 'hypotheses/win.rmd'}
 ```
 
-\newpage
-```{r child = 'hypotheses/killsaffiles.Rmd'}
-```
+<!--{r child = 'hypotheses/killsaffiles.Rmd'}
+-->
 
 \newpage
 ```{r child = 'hypotheses/firstBlood.Rmd'}
 ```
 
+\newpage
 # Parties personnelles
 
 ```{r child = 'parties_persos/anthony.md'}
