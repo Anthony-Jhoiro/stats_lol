@@ -1,6 +1,6 @@
 ## La durée des matchs et l'experience
 
-Notee problématique concernant le gain d'experience post -match, nousnous sommes renseigné quelles caractéristiques pouvaient avoir un rôle dans le gain d'experience et il semblerait que la dur&ée des matchs ait une importance capitale. Nous retrouvons cette valeur à partir du premier jeu de donnée (par match) dans la colonne `gameDuration`.<!-- TODO : completer introduction -->
+Notee problématique concernant le gain d'experience post -match, nousnous sommes renseigné quelles caractéristiques pouvaient avoir un rôle dans le gain d'experience et il semblerait que la dur&ée des matchs ait une importance capitale. Nous retrouvons cette valeur à partir du premier jeu de la colonne `gameDuration` dans notre jeu de donnée.
 
 ```{r}
 # Pour la suite, nous allons extraire uniquement les deux variables dont nous avons besoin

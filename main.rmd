@@ -1,6 +1,6 @@
 ---
 title: "Statistiques Lol"
-subtitle: "Quelle est la meilleur methode pour gagner de l'experience dans League of Legends ?"
+subtitle: "Quelle est la meilleure méthode pour gagner de l'expérience dans League of Legends ?"
 output: pdf_document
 ---
 
@@ -8,12 +8,12 @@ output: pdf_document
 
 \newpage
 # Introduction
-Dans League of legends, l'experience permet à un joueur (ou summoner) d'améliorer son niveau. Au fur et à mesure de sa montée de niveau, le joueur va avoir accès à de plus en plus de mode, l'encourageant ainsi à jouer et à progresser. Une fois tous les modes débloqués, les joueurs ont toujours accès à des bonus à chaque montée de niveau. Plus le niveau augmente, plus la quantité d'experience nécéssaire pour passer au niveau suivant est grande. Nous nous sommes donc demandé quelle était la meilleur methode pour gagner de l'experience dans League of Legends. 
+Dans League of legends, l'expérience permet à un joueur (ou summoner) d'améliorer son niveau. Au fur et à mesure de sa montée de niveau, le joueur va avoir accès à de plus en plus de mode, l'encourageant ainsi à jouer et à progresser. Une fois tous les modes débloqués, les joueurs ont toujours accès à des bonus à chaque montée de niveau. Plus le niveau augmente, plus la quantité d'expérience nécessaire pour passer au niveau suivant est grande. Nous nous sommes donc demandé quelle était la meilleure méthode pour gagner de l'experience dans League of Legends. 
 
-L'experience est souvent abréviée en **xp**.
+L'expérience est souvent abréviée en **xp**.
 
 ## Nos données
-L'experience est calculé à la suite d'un match pour chaque joueur. Nous avons donc eu besoin d'avoir les données non pas par équipe mais par joueur. Nous aurions pu utiliser le fichier par match et le découper pour chaque joueur mais comme en plus nous avions bespoin d'ajouter des champs dans le fichier source, nous avons jugé bon de réécrire le parseur afin de ce baser sur un fichier CSV dans lequel une ligne correspond à un joueur. 
+L'expérience est calculée pour chaque joueur à la fin des matchs. Nous avons donc eu besoin d'avoir les données non pas par équipe mais par joueur. Nous aurions pu utiliser le fichier par match et le découper pour chaque joueur mais comme en plus nous avions bespoin d'ajouter des champs dans le fichier source, nous avons jugé bon de réécrire le parseur afin de ce baser sur un fichier CSV dans lequel une ligne correspond à un joueur. 
 
 Nous avons joint une copie du code de ce projet en retirant les fichiers JSON sources afin de diminuer la taille de l'archive. Nous vous invitons à vous référer au dossier **LOL_java_project** afin d'avoir un aperçu de nos modifications.
 
