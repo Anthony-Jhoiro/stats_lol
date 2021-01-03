@@ -20,21 +20,26 @@ alpha = 0.05
 ```{r setup}
 # Setup librairies and dataset
 data <- read.csv("data/player_lol_data.CSV")
+data_lol <- read.csv("data/player_team_lol_data.csv")
 library(questionr)
 library(dplyr)
 ```
 
 \newpage
 # Analyses statistiques
+```{r child = 'etudes/etude_xp.rmd'}
+```
+
+\newpage
 ```{r child = 'etudes/match_duration.Rmd'}
 ```
 
 \newpage
+```{r child = 'etudes/win.rmd'}
+```
+
+\newpage
 # Observations
-<!-- TODO : Summary -->
-
-
-
 ```{r child = 'hypotheses/dammages_dealt.rmd'}
 ```
 
@@ -46,9 +51,21 @@ library(dplyr)
 ```{r child = 'hypotheses/win.rmd'}
 ```
 
+\newpage
+```{r child = 'hypotheses/killsaffiles.Rmd'}
+```
+
+\newpage
+```{r child = 'hypotheses/firstBlood.Rmd'}
+```
+
 # Parties personnelles
 
 ```{r child = 'parties_persos/anthony.md'}
+```
+
+\newpage
+```{r child = 'parties_persos/kilian.Rmd'}
 ```
 
 
