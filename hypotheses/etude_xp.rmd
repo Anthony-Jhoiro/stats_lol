@@ -1,13 +1,7 @@
 ```{r}
-data_lol <- read.csv('../data_kiki/player_team_lol_data.csv', sep=',');
-library(questionr);
-library(stats);
-library(OneTwoSamples);
 
 # récupération des xp de tous les joueurs
-vec_xp <- c(data_lol[,"xp1"], data_lol[,"xp2"], data_lol[,"xp3"], data_lol[,"xp4"], data_lol[,"xp5"], data_lol[,"xp6"], data_lol[,"xp7"], data_lol[,"xp8"], data_lol[,"xp9"], data_lol[,"xp10"]);
-# filtrage des xp (si xp == -1, alors c'est que le parseur n'a pas trouvé de valeur, on ne compte donc pas ces joueurs)
-vec_xp <- vec_xp[vec_xp != -1];
+vec_xp <- c(data[,"xp"]);
 
 ```
 
@@ -40,7 +34,7 @@ vec_outliers <- boxplot(vec_xp)$out;
 vec_wo_outliers <- vec_xp[!(vec_xp %in% vec_outliers)]
 ```
 
-On voit, sur le boxplot, la *mediane* (un trait noir épais), les 1er et 3ème *quartiles* (bord inférieur et supérieur du rectangle gris), et les valeurs extrêmes : *minimum* et *maximum* (symbolisées par un trait en dessous et au dessus des pointillées). Cependant, 2 choses : on voit que le *maximum* sur le boxplot est aux alentour de 2000, alors que plus haut, nous avons vu que le maximum était à 3903.1, et on peut voir beaucoup de petits cercles au dessus du *maximum*.
+On voit, sur le boxplot, la *mediane* (un trait noir épais), les 1er et 3ème *quartiles* (bord inférieur et supérieur du rectangle gris), et les valeurs extrêmes : *minimum* et *maximum* (symbolisées par un trait en dessous et au dessus des pointillées). Cependant, 2 choses : on voit que le *maximum* sur le boxplot est aux alentour de 2000, alors que plus haut, nous avons vu que le maximum était à **3903.1**, et on peut voir beaucoup de petits cercles au dessus du *maximum*.
 
 Ces cercles sont ce que l'on appelle les *valeurs aberrantes*, ou en anglais : *outliers*. Ce sont des valeurs qui sont considérées comme trop loin des autres valeurs et qui pourraient donc fausser les résultats.
 
@@ -71,7 +65,7 @@ On voit sur ce graphique que la distribution se rapproche en effet de la loi nor
 1 - pnorm(2000, mean = moy_xp, sd = sd(vec_xp));
 ```
 
-Par exemple, ici, on a **1.4%** de chances d'obtenir plus de **2000 xp** à la fin de la partie.
+Par exemple, ici, on a **1.5%** de chances d'obtenir plus de **2000 xp** à la fin de la partie.
 
 Pour eviter les répétitions, on peut même créer des fonctions pour calculer les probabilités d'avoir tant d'**xp** :
 
@@ -95,7 +89,7 @@ Voilà, maintenant, imaginons que l'on veut connaître la probabilité d'avoir m
 pxp(500) # probabilité que xp < 500
 dxp(moy_xp) # probabilité que xp = moyenne d'xp
 ```
-On a donc **16%** de chance d'avoir moins de **500 xp** à la fin d'une partie, et **0.08%** de chance d'obtenir exactement la moyenne.
+On a donc **18%** de chance d'avoir moins de **500 xp** à la fin d'une partie, et **0.08%** de chance d'obtenir exactement la moyenne.
 
 On peut aussi simuler une partie par exemple en tirant **10 xp** (pour les 10 joueurs de la partie) au sort suivant la répartition des **xp**
 

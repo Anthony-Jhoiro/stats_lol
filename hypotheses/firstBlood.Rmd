@@ -3,7 +3,7 @@
 ## Etude préalable sur firstBlood
 ```{r}
 # extraction des données pour l'étude du firstBlood
-data_firstBlood <- data.frame(c(data_lol[,"firstBloodKill1"], data_lol[,"firstBloodKill2"], data_lol[,"firstBloodKill3"], data_lol[,"firstBloodKill4"], data_lol[,"firstBloodKill5"], data_lol[,"firstBloodKill6"], data_lol[,"firstBloodKill7"], data_lol[,"firstBloodKill8"], data_lol[,"firstBloodKill9"], data_lol[,"firstBloodKill10"]), c(data_lol[,"xp1"], data_lol[,"xp2"], data_lol[,"xp3"], data_lol[,"xp4"], data_lol[,"xp5"], data_lol[,"xp6"], data_lol[,"xp7"], data_lol[,"xp8"], data_lol[,"xp9"], data_lol[,"xp10"]));
+data_firstBlood <- data.frame(c(data[,"firstBloodKill"]), c(data[,"xp"]));
 # nommage des colonnes
 names(data_firstBlood) <- c("fb", "xp");
 # filtrage des colonnes avec un firstBlood (certains fb sont à -1 s'il n'y avait pas de données)
@@ -52,7 +52,7 @@ rfb(15) # simuler 15 partie (le résultat est le nombre de firstBlood que l'on a
 
 ## Etude de la corrélation entre les firstBlood et l'experience gagné
 
-Nous allons d'abord étudier comment les **doubleKills** et l'**xp** gagné sont corrélés. Pour cela, nous allons poser les hypothèses suivantes :  
+Nous allons d'abord étudier comment les **firstBlood** et l'**xp** gagné sont corrélés. Pour cela, nous allons poser les hypothèses suivantes :  
 
 H0 : les **firstBlood** et les **xp** sont indépendant
 H1 : il existe une corrélation entre les 2 caractères  
@@ -66,7 +66,7 @@ On obtient un p value de *0.003*, ce qui est très bien. On peut rejeter H0, et 
 
 ### Conclusion
 
-En conclusion, on peut dire avec une très grande confiance qu'il y a une corrélation entre le fait d'effectuer le **firstBlood** et le fait de gagner beaucoup d'**xp**. Cependant, cela ne veux pas dire que l'un est une conséquence de l'autre, on peut juste savoir qu'ils sont liés
+En conclusion, on peut dire avec une très grande confiance qu'il y a une corrélation entre le fait d'effectuer le **firstBlood** et le fait de gagner beaucoup d'**xp**. Cependant, cela ne veux pas dire que l'un est une conséquence de l'autre, on peut juste savoir qu'ils sont liés.
 
 
 

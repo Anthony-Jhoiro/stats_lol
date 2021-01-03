@@ -1,0 +1,9 @@
+## Kilian
+
+Personnelement, j'ai écrit l'introduction, la partie sur les données et sur les règles.
+
+Ensuite, j'ai travaillé sur la partie avec les **firstBlood** et avec tous les **kills d'affilés**. Je trouvais cela interessant d'avoir plusieurs observations groupées sur un sujet. Cela nous a permis de voir quels **killstreak** peremttait d'avoir le plus d'expérience.
+
+Enfin, j'ai fait toute la partie sur l'étude unidimensionnel sur la variable **xp**. Cela m'a permit de retravailler les loi de probabilités.
+
+D'un côté personnel, c'est sur ce projet (et grâce au projet de dataviz), que j'ai vraiment pu prendre R en main et faire ce que je voulais. J'ai vraiment appris à manipuler les différentes structures de données proposées par R et les différentes fonctions implémentées dans le langage ainsi que les bibliothèques externes.
