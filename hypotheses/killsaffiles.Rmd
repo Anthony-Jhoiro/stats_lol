@@ -1,12 +1,12 @@
 ```{r}
 # création des data.frame pour les kills d'affiles
-data_double <- data.frame(c(data_lol[,"doubleKills1"], data_lol[,"doubleKills2"], data_lol[,"doubleKills3"], data_lol[,"doubleKills4"], data_lol[,"doubleKills5"], data_lol[,"doubleKills6"], data_lol[,"doubleKills7"], data_lol[,"doubleKills8"], data_lol[,"doubleKills9"], data_lol[,"doubleKills10"]), c(data_lol[,"xp1"], data_lol[,"xp2"], data_lol[,"xp3"], data_lol[,"xp4"], data_lol[,"xp5"], data_lol[,"xp6"], data_lol[,"xp7"], data_lol[,"xp8"], data_lol[,"xp9"], data_lol[,"xp10"]));
+data_double <- data.frame(c(data[,"doubleKills"]), c(data[,"xp"]));
 
-data_triple <- data.frame(c(data_lol[,"tripleKills1"], data_lol[,"tripleKills2"], data_lol[,"tripleKills3"], data_lol[,"tripleKills4"], data_lol[,"tripleKills5"], data_lol[,"tripleKills6"], data_lol[,"tripleKills7"], data_lol[,"tripleKills8"], data_lol[,"tripleKills9"], data_lol[,"tripleKills10"]), c(data_lol[,"xp1"], data_lol[,"xp2"], data_lol[,"xp3"], data_lol[,"xp4"], data_lol[,"xp5"], data_lol[,"xp6"], data_lol[,"xp7"], data_lol[,"xp8"], data_lol[,"xp9"], data_lol[,"xp10"]));
+data_triple <- data.frame(c(data[,"tripleKills"]), c(data[,"xp"]));
 
-data_quadra <- data.frame(c(data_lol[,"quadraKills1"], data_lol[,"quadraKills2"], data_lol[,"quadraKills3"], data_lol[,"quadraKills4"], data_lol[,"quadraKills5"], data_lol[,"quadraKills6"], data_lol[,"quadraKills7"], data_lol[,"quadraKills8"], data_lol[,"quadraKills9"], data_lol[,"quadraKills10"]), c(data_lol[,"xp1"], data_lol[,"xp2"], data_lol[,"xp3"], data_lol[,"xp4"], data_lol[,"xp5"], data_lol[,"xp6"], data_lol[,"xp7"], data_lol[,"xp8"], data_lol[,"xp9"], data_lol[,"xp10"]));
+data_quadra <- data.frame(c(data[,"quadraKills"]), c(data[,"xp"]));
 
-data_penta <- data.frame(c(data_lol[,"pentaKills1"], data_lol[,"pentaKills2"], data_lol[,"pentaKills3"], data_lol[,"pentaKills4"], data_lol[,"pentaKills5"], data_lol[,"pentaKills6"], data_lol[,"pentaKills7"], data_lol[,"pentaKills8"], data_lol[,"pentaKills9"], data_lol[,"pentaKills10"]), c(data_lol[,"xp1"], data_lol[,"xp2"], data_lol[,"xp3"], data_lol[,"xp4"], data_lol[,"xp5"], data_lol[,"xp6"], data_lol[,"xp7"], data_lol[,"xp8"], data_lol[,"xp9"], data_lol[,"xp10"]));
+data_penta <- data.frame(c(data[,"pentaKills"]), c(data[,"xp"]));
 
 
 # nommage des colonnes
