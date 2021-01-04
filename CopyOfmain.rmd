@@ -4,6 +4,7 @@ output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
+player_team_lol_data <- read.csv('player_team_lol_data.csv', sep=',')
 data_lol <- read.csv('player_team_lol_data.csv', sep=',')
 library(questionr)
 library(dplyr)
@@ -13,26 +14,6 @@ library(dplyr)
 
 ```{r}
 median(data_lol$deaths1)
-```
-## raport nbmort / nbKill
-
-```{r}
-d<-player_team_lol_data
-gdEcart<-max(c(max(d$kills1), max(d$kills2), max(d$kills3), max(d$kills4), max(d$kills5), max(d$kills6), max(d$kills7), max(d$kills8), max(d$kills9), max(d$kills10))) - min(c(min(d$kills1), min(d$kills2), min(d$kills3), min(d$kills4), min(d$kills5), min(d$kills6), min(d$kills7), min(d$kills8), min(d$kills9), min(d$kills10)))
-gdEcart
-```
-
-## Raportnb morts / nb kill
-```{r}
-deaths <- c(data$deaths1, data$deaths2, data$deaths3, data$deaths4, data$deaths5, data$deaths6, data$deaths7, data$deaths8, data$deaths9, data$deaths10)
-kills <- c(data$kills1, data$kills2, data$kills3, data$kills4, data$kills5, data$kills6, data$kills7, data$kills8, data$kills9, data$kills10)
-boxplot(kills~deaths)
-```
-
-## Total kill / win
-```{r}
-totalkill = mapply(sum, data$kills1, data$kills2, data$kills3, data$kills4, data$kills5, data$kills6, data$kills7, data$kills8, data$kills9, data$kills10)
-
 ```
 
 ## Endroit où on à plus ,de chance de mourir

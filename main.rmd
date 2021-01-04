@@ -9,19 +9,31 @@ output: pdf_document
 \newpage
 # Introduction
 
-<!-- TODO : Introduction -->
+Dans le jeu vidéo **League of Legend** à la fin d'une partie, on gagne de l'expérience, appelé **xp**. L'expérience permet par exemple de gagner des niveaux, or, à chaque niveau, on gagne des récompenses sui peuvent nous permettre d'améliorer notre personnage lors des partie, voire de débloquer de nouveaux héros.  
+
+L'expérience est donc une statistique très importante dans le jeu. Nous avons donc cherché à savoir comment gagner le plus d'expérience possible. Pour cela, nous avons émis des hypothèses sur qu'est ce qui pourrait augmenter l'expérience, puis nous avons tenté de voir s'il y avait une coorélation entre le nombre d'**xp** gagné, et les statistiques étudiées.
+
+Même si ce sera rappelé plusieurs fois lors des études, une corrélation ne signifie pas que la statistique étudiée est à l'origine d'un plus grarnd nombre d'**xp**. Cependant, si une corrélation est validée, cela signifie que si vous avez un grand nombre de cette statistique, vous avez plus de chances d'avoir beaucoup d'**xp**.
+
 ## Nos données
-<!-- TODO : Jeu de donnée -->
+
+Pour cette études, nous avons utilisé le jeu de données de 1040 match en JSON afin d'y extraire les statistiques que nous voulions grâce à un parseur java.
 
 ## Nos règles
-<!-- TODO : List rules (rédiger plus que ça) -->
-alpha = 0.05
+
+Pour cette étude, nous nous sommes fixé des règles :
+Une corrélation peut être établie si et seulement si le p value est inférieur à 0.05 (5%). Ce qui nous permet d'avoir une confiance à 95%.
 
 ```{r setup}
 # Setup librairies and dataset
 data <- read.csv("data/player_lol_data.CSV")
 library(questionr)
 library(dplyr)
+library(stats)
+library(OneTwoSamples)
+```
+
+```{r child = 'hypotheses/etude_xp.rmd'}
 ```
 
 \newpage
@@ -43,12 +55,23 @@ library(dplyr)
 ```
 
 \newpage
+```{r child = 'hypotheses/firstBlood.Rmd'}
+```
+
+\newpage
 ```{r child = 'hypotheses/win.rmd'}
+```
+
+\newpage
+```{r child = 'hypotheses/ekillsaffiles.Rmd'}
 ```
 
 # Parties personnelles
 
 ```{r child = 'parties_persos/anthony.md'}
+```
+
+```{r child = 'parties_persos/kilian.Rmd'}
 ```
 
 
