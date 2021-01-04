@@ -15,7 +15,7 @@ boxplot(data2$xp ~ data2$win )
 ```{r}
 data3 <- data2[order(data2$win),]
 m = matrix(data3$xp, nrow = 2, byrow = TRUE)
-# chisq.test(m)$p.value
+chisq.test(m)$p.value
 ```
 
 Le p-value de 0 nous permet de réfuter l'hypothèse H1 et donc d'approuver H0. La victoire semble donc jouer un role très important sur le total d'experience gagné par un joueur en fin de partie. L'experience servant à améliorer un champion, 

@@ -99,9 +99,31 @@ names(fgame) <- c("joueur1","joueur2","joueur3","joueur4","joueur5","joueur6","j
 fgame
 ```
 
+On peut aussi tester si notre simulation suit bien la loi de probabilité grâce à un test de conformité.
 
+Pour cela, on va prendre une des simulation que nous avons faite en exemple (car à chaque execution, les chiffres vont changer donc on va se fixer à une seule simulation pour analyser les résultats) et voir sa conformité. Puis il y aura une instruction permettant de calculer la conformité de la simulation qui vient d'être faite.
 
+Les chiffres en exemple seront : 782.8115,	1264.859,	2116.752,	1277.946,	2246.876,	446.9357,	1216.175,	658.4643,	1486.929,	958.7177
 
+Pour réaliser le test de conformité, nous allons poser les hypothèses suivante :
+
+H0 : la série de nombre n'est pas conforme à la moyenne annoncée
+H1 : la série est conforme à la moyenne
+
+Nous allons réaliser un test dans le but de rejeter H0.
+
+```{r}
+# exemple
+test <- c(782.8115,	1264.859,	2116.752,	1277.946,	2246.876,	446.9357,	1216.175,	658.4643,	1486.929,	958.7177);
+mean_test1(test, mu = moy_xp, sigma = sd(vec_xp))$p_value
+
+# test de conformité du tirage de dessus
+mean_test1(x = as.numeric(as.vector(fgame[1,])), mu = moy_xp, sigma = sd(vec_xp))$p_value
+```
+
+Pour le 2ème test, nous ne pouvons pas écrire de conclusion car nous n'aurons pas les mêmes chiffres.
+
+En revanche, pour le premier test, nous avons un p value de **0.049** ce qui est inférieur à **0.05** (de très peu) ce qui est suffisant pour valider la conformiter de cet échantillon.
 
 
 

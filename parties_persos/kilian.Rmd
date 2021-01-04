@@ -1,8 +1,8 @@
 ## Kilian
 
-Personnelement, j'ai écrit l'introduction, la partie sur les données et sur les règles.
+Personnellement, j'ai travaillé sur la partie avec les **firstBlood** et avec tous les **kills d'affilés**. Je trouvais cela interessant d'avoir plusieurs observations groupées sur un sujet. Cela nous a permis de voir quel **killstreak** peremttait d'avoir le plus d'expérience.
 
-Ensuite, j'ai travaillé sur la partie avec les **firstBlood** et avec tous les **kills d'affilés**. Je trouvais cela interessant d'avoir plusieurs observations groupées sur un sujet. Cela nous a permis de voir quels **killstreak** peremttait d'avoir le plus d'expérience.
+J'ai aussi écrit la conclusion du projet
 
 Enfin, j'ai fait toute la partie sur l'étude unidimensionnel sur la variable **xp**. Cela m'a permit de retravailler les loi de probabilités.
 

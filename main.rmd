@@ -28,7 +28,6 @@ Une corrélation peut être établie si et seulement si le p value est inférieu
 ```{r setup}
 # Setup librairies and dataset
 data <- read.csv("data/player_lol_data.CSV")
-data_lol <- read.csv("data/player_team_lol_data.csv")
 library(questionr)
 library(dplyr)
 library(stats)
@@ -72,15 +71,24 @@ library(OneTwoSamples)
 ```{r child = 'hypotheses/killsaffiles.Rmd'}
 ```
 
+# Conclusion
+
+Lors de nos différents test, nous avons vu qu'il y avait plusieurs p value à 0 (ces valeurs sont des approximation, en réalité, le p value est inférieur à 2.22e-16). Nous ne savons pas comment interpréter cela. Nous avons essayé d'enlever les valeurs aberrantes mais cela ne change rien. Nous avons eu aussi des p value dans des ordres de grandeur très petit comme e-7 ou e-6.
+
+Nous allons donc emettre des réserves quant à affirmer qu'il existe une corrélation pour ces valeurs extrêmes
+
+En revanche, nous pouvons estimer une bonne corrélation pour les **firstBlood**, et les **double et penta kills** qui ont obtenu des p value vraiment bons.
+
+En réalité, après quelque recherche, nous avons pu trouver la formule utilisée par Riot games (éditeur de League of Legend) pour calculer l'**xp**, et elle ne prend en compte que le temps de la partie et si l'on a gagné ou perdu. Ce qui signifie que les corrélations trouvées (à part bien sûr la corrélation entre la condition de victoire et l'**xp**) ne représentent en aucun cas une relation de cause à conséquence directe.
+
+Cependant, il est vrai par exemple, que de faire beaucoup de **doubleKills** augmentent nos chances de gagner et donc de récupérer plus d'expérience, les corrélation trouvée peuvent donc au maximum n'être que des causes indirectes du gain d'expérience.
+
 # Parties personnelles
 
 ```{r child = 'parties_persos/anthony.md'}
 ```
 
-<<<<<<< HEAD
-=======
 \newpage
->>>>>>> 9714e3bf0755fc031296286dd32905d6d5813dc6
 ```{r child = 'parties_persos/kilian.Rmd'}
 ```
 

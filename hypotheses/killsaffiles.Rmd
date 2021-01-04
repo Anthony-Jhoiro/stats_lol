@@ -18,13 +18,6 @@ names(data_triple) <- c("tripleKills", "xp");
 names(data_quadra) <- c("quadraKills", "xp");
 
 names(data_penta) <- c("pentaKills", "xp");
-
-# filtration avec les xp à -1
-
-data_double <- subset(data_double, xp > -1);
-data_triple <- subset(data_triple, xp > -1);
-data_quadra <- subset(data_quadra, xp > -1);
-data_penta <- subset(data_penta, xp > -1);
 ```
 
 # Etude de l'importance d'effectuer des kills d'affiler pour obtenir de l'expérience
@@ -184,7 +177,7 @@ H1 : il existe une corrélation entre les 2 caractères
 Comme la population de joueur ayant réalisé 0 **quadraKills** est très élevée, on va les inclures dans le test.
 
 ```{r}
-cor.test(x = data_quadra_wo$xp, y = data_quadra_wo$quadraKills);
+cor.test(x = data_quadra_wo$xp, y = data_quadra_wo$quadraKills)$p.value;
 ```
 
 On obtient un p value de *2.02e-6*, c'est assez peu, mais quand même proche d'une valeur réaliste. On ne va donc pas rejeter H0 par précaution, mais la corrélation entre **xp** et **quadraKills** reste possible.
