@@ -1,6 +1,6 @@
 ## La quantité de golds récupérés par un joueur influe sur son total d'experience
 
-Dans League of legends, les golds permettent d'acheter des objets permettant d'améliorer certaines caractéristiques de son personnage <!-- TODO : Donner des exemples de caracteristiues --> ou des consommables pour regagner de la vie par exemple. Nous nous sommes demander si l'or n'avait pas un interet suplémentaire dans le gain d'experience d'un joueur. 
+Dans League of legends, les golds permettent d'acheter des objets permettant d'améliorer certaines caractéristiques de son personnage pour la durée du match ou des consommables pour regagner de la vie par exemple. Nous nous sommes demander si l'or n'avait pas un interet suplémentaire dans le gain d'experience d'un joueur. 
 
 **H0** La quantité de gold récupéré a une influence sur la quantité d'experience en fin de match d'un joueur
 
@@ -20,7 +20,7 @@ cor.test(data_gold$goldEarned, data_gold$xp)$p.value
 ```
 Le p-value de 0 nous permet de réfuter largement H1 et donc de vérifier H0. De plus nous pouvons constater une dépendance linéaire positive entre les deux caractéristiques.
 
-Ces résultats nous permettent largement d'affirmer que la quantité de gold récupé&ré par un joueur influe sur son total d'experience en fin de combat. Cela peut s'expliquer par une mention de la quantité de gold récupérer dans le calcul de l'experience mais aussi par la mention d'une caracteristque corolaire à l'or comme le nombre de minions tués par un joueur. <!-- TODO : à vérifier -->
+Ces résultats nous permettent largement d'affirmer que la quantité de gold récupéré par un joueur influe sur son total d'experience en fin de combat. Cela peut s'expliquer par une mention de la quantité de gold récupérer dans le calcul de l'experience mais aussi par la mention d'une caracteristque corolaire à l'or comme le nombre de minions tués par un joueur ou le temps de jeu.
 
 ## On enlève les valeurs abérentes
 ```{r}
@@ -35,3 +35,5 @@ plot(data2$goldEarned ~ data2$xp)
 ```{r}
 cor.test(data2$goldEarned, data2$xp)$p.value
 ```
+
+Même en retirant les valeurs abérentes il nous reste un p-value de 0. Nous emmetons donc quelques reserves quand à ce résultat.

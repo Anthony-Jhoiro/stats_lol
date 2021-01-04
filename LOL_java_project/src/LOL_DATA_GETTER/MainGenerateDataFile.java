@@ -27,12 +27,13 @@ public class MainGenerateDataFile {
             "assists",
             "inhibitorKills",
             "firstBloodKill",
+            "doubleKills",
+            "tripleKills",
+            "quadraKills",
+            "pentaKills",
             "win",
             "matchDuration"
     };
-    private static final String XP_FIELD = "xp";
-
-
     public static void main(String[] args) throws Exception {
 
         //get the list of matches ids from the files name in the matches info directory
@@ -68,10 +69,27 @@ public class MainGenerateDataFile {
             long[] assists = matchData.getFromMatchParticipantStat("assists");
             long[] inhibitorKills = matchData.getFromMatchParticipantStat("inhibitorKills");
             long[] firstBloodKill = matchData.getFromMatchParticipantStatBoolean("firstBloodKill");
+            long[] doubleKills  = matchData.getFromMatchParticipantStat("doubleKills");
+            long[] tripleKills = matchData.getFromMatchParticipantStat("tripleKills");
+            long[] quadraKills = matchData.getFromMatchParticipantStat("quadraKills");
+            long[] pentaKills = matchData.getFromMatchParticipantStat("pentaKills");
             long[] win = matchData.getFromMatchParticipantStatBoolean("win");
             long[] matchDuration = matchData.getMatchDurationForAllPayers();
 
-            long[][] toLoad = {totalDamageDealt, goldEarned, totalMinionsKilled, championIds, assists, inhibitorKills, firstBloodKill, win, matchDuration};
+            long[][] toLoad = {
+                    totalDamageDealt,
+                    goldEarned,
+                    totalMinionsKilled,
+                    championIds, assists,
+                    inhibitorKills,
+                    firstBloodKill,
+                    doubleKills,
+                    tripleKills,
+                    quadraKills,
+                    pentaKills,
+                    win,
+                    matchDuration
+            };
 
             StringBuilder lines = new StringBuilder();
             for (int i = 0; i < MATCH_PLAYER_COUNT; i++) {

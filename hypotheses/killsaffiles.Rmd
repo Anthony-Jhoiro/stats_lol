@@ -1,4 +1,5 @@
 ```{r}
+
 # création des data.frame pour les kills d'affiles
 data_double <- data.frame(c(data[,"doubleKills"]), c(data[,"xp"]));
 

@@ -1,6 +1,6 @@
 ---
 title: "Statistiques Lol"
-subtitle: "Quelle est la meilleur methode pour gagner de l'experience dans League of Legends ?"
+subtitle: "Quelle est la meilleure méthode pour gagner de l'expérience dans League of Legends ?"
 output: pdf_document
 ---
 
@@ -8,25 +8,27 @@ output: pdf_document
 
 \newpage
 # Introduction
+Dans League of legends, l'expérience permet à un joueur (ou summoner) d'améliorer son niveau. Au fur et à mesure de sa montée de niveau, le joueur va avoir accès à de plus en plus de mode, l'encourageant ainsi à jouer et à progresser. Une fois tous les modes débloqués, les joueurs ont toujours accès à des bonus à chaque montée de niveau. Plus le niveau augmente, plus la quantité d'expérience nécessaire pour passer au niveau suivant est grande. Nous nous sommes donc demandé quelle était la meilleure méthode pour gagner de l'experience dans League of Legends. 
 
-Dans le jeu vidéo **League of Legend** à la fin d'une partie, on gagne de l'expérience, appelé **xp**. L'expérience permet par exemple de gagner des niveaux, or, à chaque niveau, on gagne des récompenses sui peuvent nous permettre d'améliorer notre personnage lors des partie, voire de débloquer de nouveaux héros.  
+L'expérience est souvent abréviée en **xp**.
 
-L'expérience est donc une statistique très importante dans le jeu. Nous avons donc cherché à savoir comment gagner le plus d'expérience possible. Pour cela, nous avons émis des hypothèses sur qu'est ce qui pourrait augmenter l'expérience, puis nous avons tenté de voir s'il y avait une coorélation entre le nombre d'**xp** gagné, et les statistiques étudiées.
-
-Même si ce sera rappelé plusieurs fois lors des études, une corrélation ne signifie pas que la statistique étudiée est à l'origine d'un plus grarnd nombre d'**xp**. Cependant, si une corrélation est validée, cela signifie que si vous avez un grand nombre de cette statistique, vous avez plus de chances d'avoir beaucoup d'**xp**.
+Même si ce sera rappelé plusieurs fois lors des études, une corrélation ne signifie pas que la statistique étudiée est à l'origine d'un plus grand nombre d'**xp**. Cependant, si une corrélation est validée, cela signifie que si vous avez un grand nombre de cette statistique, vous avez plus de chances d'avoir beaucoup d'**xp**.
 
 ## Nos données
+L'expérience est calculée pour chaque joueur à la fin des matchs. Nous avons donc eu besoin d'avoir les données non pas par équipe mais par joueur. Nous aurions pu utiliser le fichier par match et le découper pour chaque joueur mais comme en plus nous avions bespoin d'ajouter des champs dans le fichier source, nous avons jugé bon de réécrire le parseur afin de ce baser sur un fichier CSV dans lequel une ligne correspond à un joueur. 
 
-Pour cette études, nous avons utilisé le jeu de données de 1040 match en JSON afin d'y extraire les statistiques que nous voulions grâce à un parseur java.
+Nous avons joint une copie du code de ce projet en retirant les fichiers JSON sources afin de diminuer la taille de l'archive. Nous vous invitons à vous référer au dossier **LOL_java_project** afin d'avoir un aperçu de nos modifications.
+
 
 ## Nos règles
 
-Pour cette étude, nous nous sommes fixé des règles :
+Pour cette étude, nous nous sommes fixé une règle :
 Une corrélation peut être établie si et seulement si le p value est inférieur à 0.05 (5%). Ce qui nous permet d'avoir une confiance à 95%.
 
 ```{r setup}
 # Setup librairies and dataset
 data <- read.csv("data/player_lol_data.CSV")
+data_lol <- read.csv("data/player_team_lol_data.csv")
 library(questionr)
 library(dplyr)
 library(stats)
@@ -38,15 +40,19 @@ library(OneTwoSamples)
 
 \newpage
 # Analyses statistiques
+```{r child = 'etudes/etude_xp.rmd'}
+```
+
+\newpage
 ```{r child = 'etudes/match_duration.Rmd'}
 ```
 
 \newpage
+```{r child = 'etudes/win.rmd'}
+```
+
+\newpage
 # Observations
-<!-- TODO : Summary -->
-
-
-
 ```{r child = 'hypotheses/dammages_dealt.rmd'}
 ```
 
@@ -63,7 +69,7 @@ library(OneTwoSamples)
 ```
 
 \newpage
-```{r child = 'hypotheses/ekillsaffiles.Rmd'}
+```{r child = 'hypotheses/killsaffiles.Rmd'}
 ```
 
 # Parties personnelles
@@ -71,6 +77,10 @@ library(OneTwoSamples)
 ```{r child = 'parties_persos/anthony.md'}
 ```
 
+<<<<<<< HEAD
+=======
+\newpage
+>>>>>>> 9714e3bf0755fc031296286dd32905d6d5813dc6
 ```{r child = 'parties_persos/kilian.Rmd'}
 ```
 
